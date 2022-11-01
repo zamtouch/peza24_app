@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, Image, ImageBackground, FlatList, ScrollView, T
 import moment from "moment";
 import { Ionicons, FontAwesome, FontAwesome5, Entypo, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import VideoApp from "./inc/VideoApp";
+import CatalogueApp from "./inc/CatalogueApp";
 
 export default function Home() {
 
@@ -132,13 +133,15 @@ export default function Home() {
       }, []);
 
       const childRef = useRef(null);
+      const childRef2 = useRef(null);
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor:'#fff' }}>
           <VideoApp ref={childRef} />
+          <CatalogueApp ref={childRef2} />
         <View style={{ flexDirection:'row', padding:15 }}>
         <View style={{ flex:2 }}>
-            <Image source={ require('../assets/peza24.png') } style={{ height:45, width:100 }} resizeMode="contain" />
+        
             <View style={{ marginTop:15 }}>
      
             <Text style={{ fontSize:28, fontWeight:'bold' }}>{greet}<Text style={{ color:'#cc0000' }}>.</Text></Text>

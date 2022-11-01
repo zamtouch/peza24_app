@@ -1,14 +1,24 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Dimensions } from 'react-native';
 import Home from './screens/home';
+import Jobs from './screens/jobs';
 
 global.width = Dimensions.get('window').width;
 global.height = Dimensions.get('window').height;
+
+function Logo() {
+  return (
+    <Image
+      style={{ width: 90, height: 30 }}
+      source={require('./assets/peza24.png')}
+    />
+  );
+}
 
 function Profile() {
   return (
@@ -58,7 +68,7 @@ function MyTabs() {
       />
       <Tab.Screen
         name="Notifications"
-        component={Notifications}
+        component={Jobs}
         options={{
           tabBarLabel: 'Jobs & Tenders',
           tabBarIcon: ({ color }) => (
@@ -103,7 +113,7 @@ export default function App() {
         <Stack.Screen
           name=" "
           component={MyTabs}
-          options={{ headerShown: true }}
+          options={{ headerShown: true, headerTitle: (props) => <Logo {...props} /> }}
         />
         <Stack.Screen name="Profile" component={Home} />
         <Stack.Screen name="Settings" component={Home} />
