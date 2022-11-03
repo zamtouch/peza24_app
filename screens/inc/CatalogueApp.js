@@ -8,8 +8,12 @@ const VideoApp = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
   
     getAlert() {
-      console.log( global.play_video );
+
+   
       setModalVisible( true );
+
+    
+
   }
 
   }));
@@ -31,7 +35,7 @@ const VideoApp = forwardRef((props, ref) => {
   
           <WebView
       style={{ flex:1, borderRadius:10 }}
-      source={{ uri: 'https://www.youtube.com/embed/' + global.play_video }}
+      source={{ uri: "https://app.peza24.com/doc-reader/view.php?i=https://cms.peza24.com/assets/" + global.catalogue?.pdf_file.id }}
     />
                    <Pressable
               style={[styles.button, styles.buttonClose]}
@@ -53,11 +57,11 @@ const styles = StyleSheet.create({
     backgroundColor:'rgba(0,0,0,0.6)'
   },
   modalView: {
-    margin: 20,
+    margin: 10,
     backgroundColor: '#fff',
-    borderRadius: 20,
-    padding: 15,
-    height:'50%',
+    borderRadius: 15,
+    padding: 5,
+    height:'90%',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -71,7 +75,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     elevation: 2,
-    marginTop:30
+    marginTop:20
   },
   buttonOpen: {
     backgroundColor: '#F194FF',

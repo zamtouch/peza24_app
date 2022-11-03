@@ -3,10 +3,11 @@ import { Text, View, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, Entypo, FontAwesome } from '@expo/vector-icons';
 import { Dimensions } from 'react-native';
 import Home from './screens/home';
 import Jobs from './screens/jobs';
+import Promos from './screens/promos';
 
 global.width = Dimensions.get('window').width;
 global.height = Dimensions.get('window').height;
@@ -51,9 +52,9 @@ function MyTabs() {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      activeColor="#f0edf6"
-      inactiveColor="#3e2465"
-      barStyle={{ backgroundColor: '#cc0000' }}
+      activeColor="#cc0000"
+      inactiveColor="#777"
+      barStyle={{ backgroundColor: '#fff' }}
     >
       <Tab.Screen
         name="Feed"
@@ -72,7 +73,7 @@ function MyTabs() {
         options={{
           tabBarLabel: 'Jobs & Tenders',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="briefcase" color={color} size={26} />
+            <FontAwesome name="briefcase" color={color} size={26} />
           ),
           tabBarOptions: {
             activeTintColor: 'tomato',
@@ -83,11 +84,11 @@ function MyTabs() {
 
 <Tab.Screen
         name="Marketplace"
-        component={Marketplace}
+        component={Promos}
         options={{
           tabBarLabel: 'Marketplace',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="circle" color={color} size={26} />
+            <Entypo name="shop" color={color} size={26} />
           ),
         }}
       />

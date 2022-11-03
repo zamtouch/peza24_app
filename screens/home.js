@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Text, View, StyleSheet, Image, ImageBackground, FlatList, ScrollView, TouchableOpacity } from 'react-native';
 import moment from "moment";
-import { Ionicons, FontAwesome, FontAwesome5, Entypo, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { Feather, FontAwesome, FontAwesome5, Entypo, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import VideoApp from "./inc/VideoApp";
 import CatalogueApp from "./inc/CatalogueApp";
 
@@ -140,41 +140,49 @@ export default function Home() {
           <VideoApp ref={childRef} />
           <CatalogueApp ref={childRef2} />
         <View style={{ flexDirection:'row', padding:15 }}>
-        <View style={{ flex:2 }}>
+        <View style={{ flex:1 }}>
         
             <View style={{ marginTop:15 }}>
      
-            <Text style={{ fontSize:28, fontWeight:'bold' }}>{greet}<Text style={{ color:'#cc0000' }}>.</Text></Text>
+            <Text style={{ fontSize:24, fontWeight:'bold' }}>{greet}<Text style={{ color:'#cc0000' }}>.</Text></Text>
             <Text style={{ color:'#999' }}>{moment().utcOffset('+03:00').format('dddd MMM Do YYYY')}</Text>
             </View>
          
             </View>
 
-            <View style={{ flex:1, alignItems:'center' }}>
+            <View style={{ flex:1 }}>
+            <Text style={{ color:'#777', margin:5 }}>Exchange Calculator</Text>
+              <View style={{ flexDirection:'row', }}>
 
-                <View style={{ flexDirection:'row', borderRadius:5, borderWidth:0.5, padding:10, borderColor:'#ddd' }}>
+                <View style={{ flexDirection:'row', flex:1, borderRadius:5, borderWidth:0.5, padding:10, margin:5, borderColor:'#ddd' }}>
 
-                <FontAwesome5 style={styles.iconstyle} size={24} name="chart-bar" />
-                <View style={{ marginLeft:15 }}>
-                <Text style={{ fontWeight:'bold', fontSize:11 }}>USD - ZMW</Text>
+               
+                <View>
+                <Text style={{ fontWeight:'bold', fontSize:11 }}>USD</Text>
                 <Text>K{rates.usd.toFixed(2)}</Text>
                 </View>
                 </View>
                 
-                <View style={{ flexDirection:'row', borderRadius:5, borderWidth:0.5, padding:10, borderColor:'#ddd', marginTop:15 }}>
+                <View style={{ flexDirection:'row', flex:1, borderRadius:5, borderWidth:0.5, padding:10, margin:5, borderColor:'#ddd' }}>
 
-<FontAwesome5 style={styles.iconstyle} size={24} name="chart-bar" />
-<View style={{ marginLeft:15 }}>
-<Text style={{ fontWeight:'bold', fontSize:11 }}>ZAR - ZMW</Text>
+
+<View>
+<Text style={{ fontWeight:'bold', fontSize:11 }}>ZAR</Text>
 <Text>K{rates.rand.toFixed(2)}</Text>
 </View>
 </View>
-
+</View>
                 </View>
         </View>
 
         <View>
-        <Text style={{ fontSize:20, fontWeight:'bold', marginLeft: 15 }}>Zambian & African Podcasts<Text style={{ color:'#cc0000' }}>.</Text></Text>
+
+        <View style={{ flexDirection:'row', marginTop:20 }}>
+        <Text style={{ flex:1, fontSize:20, fontWeight:'bold', marginLeft: 15 }}>Zambian & African Podcasts<Text style={{ color:'#cc0000' }}>.</Text></Text>
+<Text style={{ marginRight:15, fontSize:20 }}>See all</Text>
+</View>
+
+        
         <View style={{ flexDirection:'row', padding:15 }}>
     
         <FlatList
@@ -214,36 +222,39 @@ export default function Home() {
 
         <TouchableOpacity onPress={() => report(1)}>
         <View style={styles.iconButtons}>
-            <FontAwesome5 style={styles.iconstyle} size={24} name="shopping-cart" />
+            <Feather style={styles.iconstyle} size={24} name="shopping-bag" />
             </View>
             <Text style={styles.icontext}>Sales & Promos</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => report(1)}>
         <View style={styles.iconButtons}>
-            <FontAwesome5 style={styles.iconstyle} size={24} name="video" />
+            <Ionicons style={styles.iconstyle} size={24} name="videocam-outline" />
             </View>
             <Text style={styles.icontext}>Podcasts</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => report(1)}>
         <View style={styles.iconButtons}>
-            <FontAwesome5 style={styles.iconstyle} size={24} name="trophy" />
+            <Ionicons style={styles.iconstyle} size={24} name="ios-trophy-outline" />
             </View>
             <Text style={styles.icontext}>Annual Awards</Text>
         </TouchableOpacity>
  
       </View>
       </ScrollView>
+<View style={{ flexDirection:'row', marginTop:20 }}>
+<Text style={{ flex:1, fontSize:20, fontWeight:'bold', marginLeft: 15 }}>Latest Sales & Promos<Text style={{ color:'#cc0000' }}>.</Text></Text>
+<Text style={{ marginRight:15, fontSize:20, color:'#777' }}>See all</Text>
+</View>
 
-<Text style={{ fontSize:20, fontWeight:'bold', marginLeft: 15 }}>Latest Sales & Promos<Text style={{ color:'#cc0000' }}>.</Text></Text>
         <View style={{ flexDirection:'row', padding:15 }}>
     
         <FlatList
         horizontal={true}
         data={promos}
         renderItem={ ({item}) => (
-            <View key={item.id} style={{  width: global.width * 0.40, paddingRight:10, height: global.width * 0.85 }}>
+            <TouchableOpacity onPress={() => playCatalogue( item )} key={item.id} style={{  width: global.width * 0.40, paddingRight:10, height: global.width * 0.85 }}>
        
         
               <ImageBackground imageStyle={{ borderRadius:5, borderColor:'#ddd', borderWidth:1 }} source={{ uri: "https://cms.peza24.com/assets/" + item.featured_image.id }} resizeMode="contain" style={{ alignItems:'center', justifyContent:'center', width:'100%', height: global.width * 0.60 }}>
@@ -253,8 +264,9 @@ export default function Home() {
          
                <Text numberOfLines={1} ellipsizeMode='tail' style={{ marginTop: 10, fontWeight:'bold' }}>{(item.store).toUpperCase()}</Text>
                <Text numberOfLines={2} ellipsizeMode='tail' style={{ marginTop: 10,  }}>{item.title}</Text>
-               <Text>{item.expiry_date}</Text>
-               </View> 
+               <Text style={{ color:'darkorange', fontSize:13 }}>Expires</Text>
+               <Text>{moment(item.expiry_date).utcOffset('+03:00').format('dddd MMM Do')}</Text>
+               </TouchableOpacity> 
   )}
         keyExtractor={item => item.id}
       />
@@ -277,7 +289,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#ECF0F1'
     },
     iconstyle:{
-        color:'#dd0000'
+        color:'#777'
       },
       iconButtons: {
         alignItems:'center',
