@@ -68,7 +68,7 @@ export default function Home() {
           fetch("https://cms.peza24.com/items/site_defaults").then(
             (resp) => resp.json()
           ),
-          fetch("https://cms.peza24.com/items/home_slider?sort=order").then(
+          fetch("https://cms.peza24.com/items/home_slider?sort=-date_created&limit=5").then(
             (resp) => resp.json()
           ),
           fetch(

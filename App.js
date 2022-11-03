@@ -3,7 +3,7 @@ import { Text, View, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { MaterialCommunityIcons, Entypo, FontAwesome } from '@expo/vector-icons';
+import { MaterialCommunityIcons, Entypo, Feather, FontAwesome } from '@expo/vector-icons';
 import { Dimensions } from 'react-native';
 import Home from './screens/home';
 import Jobs from './screens/jobs';
@@ -83,8 +83,19 @@ function MyTabs() {
       />
 
 <Tab.Screen
-        name="Marketplace"
+        name="Promos"
         component={Promos}
+        options={{
+          tabBarLabel: 'Promos',
+          tabBarIcon: ({ color }) => (
+            <Feather name="shopping-bag" color={color} size={26} />
+          ),
+        }}
+      />
+
+<Tab.Screen
+        name="Marketplace"
+        component={Marketplace}
         options={{
           tabBarLabel: 'Marketplace',
           tabBarIcon: ({ color }) => (
