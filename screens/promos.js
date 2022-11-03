@@ -205,7 +205,6 @@ export default function Home() {
         style={{ paddingHorizontal:10, paddingVertical:5, borderWidth:1, borderColor:'#ddd', borderRadius:10, marginBottom:10 }}
         onChangeText={ value => { searchFilterFunction(value) } }
         placeholder="Search by store name"
-        keyboardType="numeric"
       />
           <FlatList
             data={filteredDataSource}
