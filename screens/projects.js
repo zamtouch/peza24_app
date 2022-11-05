@@ -14,9 +14,9 @@ import moment from "moment";
 import {
   FontAwesome,
 } from "@expo/vector-icons";
-import Loader from "./inc/Loader";
-import CatalogueApp from "./inc/CatalogueApp";
+import PortfolioApp from "./inc/PortfolioApp";
 import DropDownPicker from "react-native-dropdown-picker";
+import Loader from "./inc/Loader";
 
 export default function Home() {
 
@@ -36,14 +36,7 @@ export default function Home() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(14);
   const [items, setItems] = useState([
-    { label: "Spain", value: "spain" },
-    { label: "Madrid", value: "madrid" },
-    { label: "Barcelona", value: "barcelona" },
-
-    { label: "Italy", value: "italy" },
-    { label: "Rome", value: "rome" },
-
-    { label: "Finland", value: "finland" },
+    { label: "Spain", value: "spain" }
   ]);
 
   const [category, setCategory] = useState([]);
@@ -54,7 +47,7 @@ export default function Home() {
     }
 
     var data = data.filter(function (value) {
-      return value.catalogue_category?.id == item;
+      return value.main_category?.id == item;
     });
 
     return data.length;
@@ -68,7 +61,7 @@ export default function Home() {
     }
     //setSelected(event.target.value);
     var data = masterDataSource.filter(function (value) {
-      return value.catalogue_category?.id == category;
+      return value.main_category?.id == category;
     });
 
     setFilteredDataSource(data);
@@ -81,8 +74,8 @@ export default function Home() {
       // Filter the masterDataSource and update FilteredDataSource
       const newData = masterDataSource.filter(function (item) {
         // Applying filter for the inserted text in search bar
-        const itemData = item.store
-          ? item.store.toUpperCase()
+        const itemData = item.project_name
+          ? item.project_name.toUpperCase()
           : "".toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
@@ -97,26 +90,23 @@ export default function Home() {
     }
   };
 
-  const play = (video_id) => {
-    global.play_video = video_id;
-    childRef.current.getAlert();
-  };
 
-  const playCatalogue = (c) => {
-    global.catalogue = c;
-    childRef2.current.getAlert();
+
+  const playProject = (c) => {
+    global.project = c;
+    childRef.current.getAlert();
   };
 
   const get_data = () => {
     Promise.all([
       fetch(
-        "https://cms.peza24.com/items/catalogue_categories?sort=order"
+        "https://cms.peza24.com/items/main_categories"
       ).then((resp) => resp.json()),
       fetch("https://cms.peza24.com/items/site_defaults").then((resp) =>
         resp.json()
       ),
       fetch(
-        "https://cms.peza24.com/items/sales_and_promos?filter[status]=published&sort=-date_created&limit=100&fields=*.*.*"
+        "https://cms.peza24.com/items/portfolio?filter[status]=published&limit=100&fields=*.*.*"
       ).then((resp) => resp.json()),
     ])
       .then(function (response) {
@@ -145,27 +135,30 @@ export default function Home() {
   };
 
   React.useEffect(() => {
+    global.project = null;
     get_data();
   }, []);
 
   const childRef = useRef(null);
-  const childRef2 = useRef(null);
 
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
            {loader? <Loader /> : null }
-      <CatalogueApp ref={childRef2} />
+      <PortfolioApp ref={childRef} />
+   
       <View style={{ flexDirection: "row", marginTop: 20 }}>
         <Text
           style={{ flex: 1, fontSize: 20, fontWeight: "bold", marginLeft: 15 }}
         >
-          Latest Sales & Promos.<Text style={{ color: "#cc0000" }}>.</Text>
+          Projects<Text style={{ color: "#cc0000" }}>.</Text>
+        
         </Text>
+       
         <Text style={{ marginRight: 15, fontSize: 16, color: "#777" }}>
           {filteredDataSource.length + " Listings"}
         </Text>
       </View>
-
+      <Text style={{ marginLeft:15, color:'#999' }}>Explore beautiful work from Peza24 members</Text>
       <View style={{ padding: 15, flex: 1 }}>
         <View
           style={{
@@ -204,23 +197,24 @@ export default function Home() {
         <TextInput
         style={{ paddingHorizontal:10, paddingVertical:5, borderWidth:1, borderColor:'#ddd', borderRadius:10, marginBottom:10 }}
         onChangeText={ value => { searchFilterFunction(value) } }
-        placeholder="Search by store name"
+        placeholder="Search by keyword"
       />
           <FlatList
             data={filteredDataSource}
             numColumns={2}
             renderItem={({ item }) => (
               <TouchableOpacity
-                onPress={() => playCatalogue(item)}
+                onPress={() => playProject(item)}
                 key={item.id}
                 style={{
                   flex: 1,
                   paddingRight: 10,
                   maxWidth: global.width * 0.49,
-                  height: global.width * 0.95,
+                  height: global.width * 0.45,
                   alignItems: "center",
                 }}
               >
+                { item.listing_type == 1 ?
                 <ImageBackground
                   imageStyle={{
                     borderRadius: 5,
@@ -229,39 +223,42 @@ export default function Home() {
                   }}
                   source={{
                     uri:
-                      "https://cms.peza24.com/assets/" + item.featured_image.id,
+                      "https://media.peza24.com/portfolio/thumbnail_" + item.featured_image,
                   }}
                   resizeMode="contain"
                   style={{
                     alignItems: "center",
                     justifyContent: "center",
                     width: "100%",
-                    height: global.width * 0.6,
+                    height: global.width * 0.3,
                   }}
-                ></ImageBackground>
+                ></ImageBackground> :
+                <ImageBackground
+                imageStyle={{
+                  borderRadius: 5,
+                  borderColor: "#ddd",
+                  borderWidth: 1,
+                }}
+                source={{ uri: "https://img.youtube.com/vi/" + item.video_id + "/hqdefault.jpg" }}
+                resizeMode="contain"
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100%",
+                  height: global.width * 0.3,
+                }}
+              ></ImageBackground> }
 
-                <Text
-                  numberOfLines={1}
-                  ellipsizeMode="tail"
-                  style={{ marginTop: 10, fontWeight: "bold" }}
-                >
-                  {item.store.toUpperCase()}
-                </Text>
+             
                 <Text
                   numberOfLines={2}
                   ellipsizeMode="tail"
-                  style={{ marginTop: 10, fontSize:11, minHeight:30, color:'#999' }}
+                  style={{ marginTop: 10, fontSize:11, minHeight:30, color:'#222' }}
                 >
-                  {item.title}
+                  {item.project_name}
                 </Text>
-                <Text style={{ color: "darkorange", fontSize: 13 }}>
-                <FontAwesome style={{ color: "darkorange" }} size={13} name="calendar" /> Expires
-                </Text>
-                <Text>
-                  {moment(item.expiry_date)
-                    .utcOffset("+03:00")
-                    .format("dddd MMM Do")}
-                </Text>
+           
+            
               </TouchableOpacity>
             )}
             keyExtractor={(item) => item.id}

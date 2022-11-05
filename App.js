@@ -8,6 +8,8 @@ import { Dimensions } from 'react-native';
 import Home from './screens/home';
 import Jobs from './screens/jobs';
 import Promos from './screens/promos';
+import Projects from './screens/projects';
+import Podcasts from './screens/podcasts';
 
 global.width = Dimensions.get('window').width;
 global.height = Dimensions.get('window').height;
@@ -127,7 +129,8 @@ export default function App() {
           component={MyTabs}
           options={{ headerShown: true, headerTitle: (props) => <Logo {...props} /> }}
         />
-        <Stack.Screen name="Profile" component={Home} />
+        <Stack.Screen name="Projects" component={Projects} />
+        <Stack.Screen name="Podcasts" component={Podcasts} />
         <Stack.Screen name="Settings" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>

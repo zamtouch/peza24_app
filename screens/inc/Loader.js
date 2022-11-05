@@ -1,9 +1,9 @@
 import React, {useState, useEffect, forwardRef, useRef, useImperativeHandle } from 'react';
-import { Alert, Modal, StyleSheet, Text, Pressable, View } from 'react-native';
+import { Alert, Modal, StyleSheet, Image, Text, Pressable, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 const VideoApp = forwardRef((props, ref) => {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(true);
 
   useImperativeHandle(ref, () => ({
   
@@ -19,8 +19,7 @@ const VideoApp = forwardRef((props, ref) => {
   return (
     <View style={styles.centeredView}>
       <Modal
-        animationType="fade"
-        transparent={true}
+        transparent={false}
         visible={modalVisible}
         onRequestClose={() => {
           Alert.alert('Modal has been closed.');
@@ -29,15 +28,7 @@ const VideoApp = forwardRef((props, ref) => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
   
-          <WebView
-      style={{ flex:1, borderRadius:10 }}
-      source={{ uri: 'https://www.youtube.com/embed/' + global.play_video }}
-    />
-                   <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={styles.textStyle}>close</Text>
-            </Pressable>
+ <Image source={ require('../../assets/peza24_loader.gif') } resizeMode="contain" style={{ height:105, with:105 }} />
           </View>
         </View>
       </Modal>
@@ -49,23 +40,15 @@ const VideoApp = forwardRef((props, ref) => {
 const styles = StyleSheet.create({
   centeredView: {
     justifyContent: 'center',
-    backgroundColor:'rgba(0,0,0,0.85)'
+    backgroundColor:'#fff',
+    flex:1,
+    zIndex:2
   },
   modalView: {
-    margin: 20,
     justifyContent: 'center',
     backgroundColor: '#fff',
-    borderRadius: 20,
-    padding: 10,
-    height:'65%',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    alignItems:'center',
+    flex:1
   },
   button: {
     borderRadius: 20,

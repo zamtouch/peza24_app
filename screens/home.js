@@ -3,9 +3,11 @@ import { Text, View, StyleSheet, Image, ImageBackground, FlatList, ScrollView, T
 import moment from "moment";
 import { Feather, FontAwesome, FontAwesome5, Entypo, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import VideoApp from "./inc/VideoApp";
+import CalculatorApp from "./inc/CalculatorApp";
+import Loader from "./inc/Loader";
 import CatalogueApp from "./inc/CatalogueApp";
 
-export default function Home() {
+export default function Home({navigation}) {
 
     const [ greet, setGreet ] = useState(null);
 
@@ -48,7 +50,7 @@ export default function Home() {
       const [ site, setSite ] = useState({
         home_wallpaper:'google.com',
         network_banner:'google.com',
-        awards_banner:'google.com'
+        awards_banner:'google.com',
       });
     
       const play = ( video_id ) => {
@@ -61,6 +63,13 @@ export default function Home() {
         global.catalogue = c
         childRef2.current.getAlert();
       }
+
+      const calc = ( c, c2 ) => {
+    
+        global.rate = c;
+        global.currency = c2;
+        childRef3.current.getAlert();
+      }
     
     
       const get_data = () => {
@@ -68,7 +77,7 @@ export default function Home() {
           fetch("https://cms.peza24.com/items/site_defaults").then(
             (resp) => resp.json()
           ),
-          fetch("https://cms.peza24.com/items/home_slider?sort=-date_created&limit=5").then(
+          fetch("https://cms.peza24.com/items/podcast_videos?sort=-date_created&limit=5").then(
             (resp) => resp.json()
           ),
           fetch(
@@ -81,7 +90,7 @@ export default function Home() {
             "https://cms.peza24.com/users?fields=*.*.*&limit=5&filter[featured_profile]=true"
           ).then((resp) => resp.json()),
           fetch(
-            "https://cms.peza24.com/items/sales_and_promos?filter[status]=published&limit=4&fields=*.*.*"
+            "https://cms.peza24.com/items/sales_and_promos?&sort=-date_created&filter[status]=published&limit=4&fields=*.*.*"
           ).then((resp) => resp.json()),
         ])
           .then(function (response) {
@@ -134,11 +143,14 @@ export default function Home() {
 
       const childRef = useRef(null);
       const childRef2 = useRef(null);
+      const childRef3 = useRef(null);
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor:'#fff' }}>
+      {loader? <Loader /> : null }
           <VideoApp ref={childRef} />
           <CatalogueApp ref={childRef2} />
+          <CalculatorApp ref={childRef3} />
         <View style={{ flexDirection:'row', padding:15 }}>
         <View style={{ flex:1 }}>
         
@@ -157,10 +169,10 @@ export default function Home() {
                 <View style={{ flexDirection:'row', flex:1, borderRadius:5, borderWidth:0.5, padding:10, margin:5, borderColor:'#ddd' }}>
 
                
-                <View>
+                <TouchableOpacity onPress={ () => calc( rates.usd.toFixed(2), 'USD' ) }>
                 <Text style={{ fontWeight:'bold', fontSize:11 }}>USD</Text>
                 <Text>K{rates.usd.toFixed(2)}</Text>
-                </View>
+                </TouchableOpacity>
                 </View>
                 
                 <View style={{ flexDirection:'row', flex:1, borderRadius:5, borderWidth:0.5, padding:10, margin:5, borderColor:'#ddd' }}>
@@ -179,7 +191,7 @@ export default function Home() {
 
         <View style={{ flexDirection:'row', marginTop:20 }}>
         <Text style={{ flex:1, fontSize:20, fontWeight:'bold', marginLeft: 15 }}>Zambian & African Podcasts<Text style={{ color:'#cc0000' }}>.</Text></Text>
-<Text style={{ marginRight:15, fontSize:20 }}>See all</Text>
+        <TouchableOpacity onPress={ () => { navigation.navigate( 'Podcasts' ) } }><Text style={{ marginRight:15, fontSize:20, color:'#999' }}>See all</Text></TouchableOpacity>
 </View>
 
         
@@ -211,28 +223,37 @@ export default function Home() {
 <ScrollView horizontal={true}>
       <View style={{ flexDirection:'row', marginLeft:15, marginBottom:15 }}>
 
-      <TouchableOpacity onPress={() => report(1)}>
-        <View style={styles.iconButtons}>
-            <FontAwesome5 style={styles.iconstyle} size={24} name="images" />
-            </View>
-            <Text style={styles.icontext}>Project Portfolios</Text>
-        </TouchableOpacity>
-
-
-
-        <TouchableOpacity onPress={() => report(1)}>
-        <View style={styles.iconButtons}>
-            <Feather style={styles.iconstyle} size={24} name="shopping-bag" />
-            </View>
-            <Text style={styles.icontext}>Sales & Promos</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => report(1)}>
+      <TouchableOpacity onPress={ () => { navigation.navigate( 'Podcasts' ) } }>
         <View style={styles.iconButtons}>
             <Ionicons style={styles.iconstyle} size={24} name="videocam-outline" />
             </View>
             <Text style={styles.icontext}>Podcasts</Text>
         </TouchableOpacity>
+
+      <TouchableOpacity onPress={ () => { navigation.navigate( 'Projects' ) } }>
+        <View style={styles.iconButtons}>
+            <FontAwesome5 style={styles.iconstyle} size={24} name="images" />
+            </View>
+            <Text style={styles.icontext}>Freelance Projects</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={ () => { navigation.navigate( 'Projects' ) } }>
+        <View style={styles.iconButtons}>
+            <FontAwesome5 style={styles.iconstyle} size={24} name="users" />
+            </View>
+            <Text style={styles.icontext}>Freelance Services</Text>
+        </TouchableOpacity>
+
+
+
+        <TouchableOpacity onPress={ () => { navigation.navigate( 'Projects' ) } }>
+        <View style={styles.iconButtons}>
+            <FontAwesome5 style={styles.iconstyle} size={24} name="images" />
+            </View>
+            <Text style={styles.icontext}>Company Projects</Text>
+        </TouchableOpacity>
+
+
 
         <TouchableOpacity onPress={() => report(1)}>
         <View style={styles.iconButtons}>
@@ -245,10 +266,10 @@ export default function Home() {
       </ScrollView>
 <View style={{ flexDirection:'row', marginTop:20 }}>
 <Text style={{ flex:1, fontSize:20, fontWeight:'bold', marginLeft: 15 }}>Latest Sales & Promos<Text style={{ color:'#cc0000' }}>.</Text></Text>
-<Text style={{ marginRight:15, fontSize:20, color:'#777' }}>See all</Text>
+<TouchableOpacity onPress={ () => { navigation.navigate( 'Promos' ) } }><Text style={{ marginRight:15, fontSize:20, color:'#777' }}>See all</Text></TouchableOpacity>
 </View>
 
-        <View style={{ flexDirection:'row', padding:15 }}>
+        <View style={{ flexDirection:'row', padding:15, marginBottom:15 }}>
     
         <FlatList
         horizontal={true}
@@ -272,6 +293,24 @@ export default function Home() {
       />
 
        
+</View>
+<View style={{ backgroundColor:'#f8ca2c', paddingVertical:15 }}>
+<Image source={{ uri: 'https://cms.peza24.com/assets/' + site?.portfolio_banner }} style={{ width:'100%', height: global.width * 0.35 }} />
+<TouchableOpacity onPress={() => navigation.navigate( 'Projects' )} style={{ backgroundColor:'#f8ca2c', padding:15, alignItems:'center', width:'100%' }}>
+  <Text style={{ color:'#222' }}>Explore beautiful work from Peza24 members</Text>
+  <Text style={{ margin:15, color:'#222', fontWeight:'bold'  }}>VIEW PROJECTS <FontAwesome style={styles.iconstyle} size={13} name="arrow-right" /></Text>
+</TouchableOpacity>
+</View>
+<Image source={{ uri: 'https://cms.peza24.com/assets/' + site?.network_banner }} style={{ width:'100%', height:300 }} />
+<View style={{ backgroundColor:'#fff', padding:15, alignItems:'center', width:'100%' }}>
+  <Text style={{ color:'#999' }}>Join the Peza24 community today</Text>
+  <TouchableOpacity style={{ margin:10, backgroundColor:'transparent', borderColor:'#999', borderWidth:1, borderRadius:10 }}><Text style={{ margin:15, color:'#222',  }}>Create Account / Login</Text></TouchableOpacity>
+</View>
+
+<Image source={{ uri: 'https://cms.peza24.com/assets/' + site?.awards_banner }} style={{ width:'100%', height:300 }} />
+<View style={{ backgroundColor:'#fff', padding:15, alignItems:'center', width:'100%' }}>
+  <Text style={{ color:'#999' }}>Join the Peza24 community today</Text>
+  <TouchableOpacity style={{ margin:10, backgroundColor:'transparent', borderColor:'#999', borderWidth:1, borderRadius:10 }}><Text style={{ margin:15, color:'#222',  }}>Learn More</Text></TouchableOpacity>
 </View>
 
         </View>
