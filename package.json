@@ -18,7 +18,9 @@
     "lodash": "^4.17.21",
     "lodash.filter": "^4.6.0",
     "moment": "^2.29.4",
+    "moment-timezone": "^0.5.38",
     "react": "18.0.0",
+    "react-moment": "^1.1.2",
     "react-native": "0.69.6",
     "react-native-dropdown-picker": "^5.4.2",
     "react-native-modal-filter-picker": "^2.1.0",
@@ -26,7 +28,8 @@
     "react-native-safe-area-context": "4.3.1",
     "react-native-screens": "~3.15.0",
     "react-native-vector-icons": "^9.2.0",
-    "react-native-webview": "11.23.0"
+    "react-native-webview": "11.23.0",
+    "vue-filter": "^0.2.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

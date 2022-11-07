@@ -1,31 +1,47 @@
 import React, { useState, useRef } from "react";
 import { Text, View, StyleSheet, Image, ImageBackground, FlatList, ScrollView, TouchableOpacity,TextInput, Component } from 'react-native';
 import moment from "moment";
+import Moment from 'react-moment';
 import { Ionicons, FontAwesome, FontAwesome5, Entypo, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import filter from 'lodash.filter';
-//import DropDownPicker from 'react-native-dropdown-picker';
+import DropDownPicker from 'react-native-dropdown-picker';
 //import Dropdown from './components/Dropdown';
 
 export default function Profile() {
 
   //dropdown
-  const [category_name, setValue] = useState(null);
+  const [value, setValue] = useState(17);
   const [open, setOpen] = useState(false);
-  const [categories, setCategory] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [filteredDataSource, setFilteredDataSource] = useState([]);
+  const [masterDataSource, setMasterDataSource] = useState([]);
+  const [items, setItems] = useState([
+    { label: "Spain", value: "spain" },
+    { label: "Madrid", value: "madrid" },
+    { label: "Barcelona", value: "barcelona" },
+
+    { label: "Italy", value: "italy" },
+    { label: "Rome", value: "rome" },
+
+    { label: "Finland", value: "finland" },
+  ]);
   //search 
-  const [data, setData] = useState([]);
+  const [data2, setData] = useState([]);
   const [query, setQuery] = useState('');
+  const [search, setSearch] = useState("");
   //jobs
   const [jobs, setJobs] = useState([]);
+
+
 
   //fetch data from api
   const get_jobs = () => {
     Promise.all([
       fetch(
-        "https://cms.peza24.com/items/job_listings?limit=10&fields=*.*.*&sort=-date_created"
+        "https://cms.peza24.com/items/job_listings?limit=100&fields=*.*.*&sort=-date_created"
       ).then((resp) => resp.json()),
       fetch(
-        "https://cms.peza24.com/items/job_categories?limit=20&fields=*.*.*"
+        "https://cms.peza24.com/items/job_categories?"
       ).then((resp) => resp.json())
     ])
       .then(function (response) {
@@ -36,9 +52,17 @@ export default function Profile() {
         
         setJobs(response[0].data);
         setData(response[0].data);
-        setCategory(response[1].data);
-        setValue(response[1].data);
+       // setCategory(response[1].data);
 
+        const transformed = response[1].data.map(({ id, category_name }) => ({
+          label: category_name + " (" + get_category_count( id, response[0].data ) + ")",
+          value: id,
+        }));
+
+        setFilteredDataSource(response[0].data);
+        setMasterDataSource(response[0].data);
+
+        setCategory(transformed);
 
       })
       .catch(function (error) {
@@ -77,14 +101,54 @@ export default function Profile() {
     );
   }
 
-  // Search Handler
-  const handleSearch = text => {
-    const formattedQuery = text.toLowerCase();
-    const filteredData = filter(jobs, job => {
-      return contains(job, formattedQuery);
+  const get_category_count = ( item, data ) => {
+    if (item == 17) {
+      return data.length;
+    }
+
+    var data = data.filter(function (value) {
+      return value.job_category?.id == item;
     });
-    setData(filteredData);
-    setQuery(text);
+
+    return data.length;
+  };
+
+  const change_category = (category) => {
+    if (category == 17) {
+      setFilteredDataSource(masterDataSource);
+
+      return;
+    }
+    //setSelected(event.target.value);
+    var data = masterDataSource.filter(function (value) {
+      return value.job_category?.id == category;
+    });
+
+    setFilteredDataSource(data);
+  };
+
+  // Search Handler 
+  const searchFilterFunction = (text) => {
+    // Check if searched text is not blank
+    if (text) {
+      // Inserted text is not blank
+      // Filter the masterDataSource and update FilteredDataSource
+      const newData = masterDataSource.filter(function (item) {
+        // Applying filter for the inserted text in search bar
+        const itemData = item.job_title
+          ? item.job_title.toUpperCase()
+          : "".toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredDataSource(newData);
+      setSearch(text);
+    } else {
+      // Inserted text is blank
+      // Update FilteredDataSource with masterDataSource
+      setFilteredDataSource(masterDataSource);
+      setSearch(text);
+    }
   };
 
   const contains = ({ job_title, job_description }, query) => {
@@ -98,18 +162,52 @@ export default function Profile() {
   };
 
 
-    return (
+    return ( 
 
 
 <View style={styles.container}>
 
-  
-        <Text style={styles.text}>Available Jobs</Text>
+      <View>
+      <Text style={styles.text}> {filteredDataSource.length} Available Jobs </Text>
+        
+      </View>
+        
+
+        
+        <DropDownPicker
+            open={open}
+            value={value}
+            items={category}
+            setOpen={setOpen}
+            setValue={setValue}
+            setItems={setItems}
+            onChangeValue={(value) => {
+              change_category(value);
+            }}
+            theme="DARK"
+            multiple={false}
+            mode="BADGE"
+            badgeDotColors={[
+              "#e76f51",
+              "#00b4d8",
+              "#e9c46a",
+              "#e76f51",
+              "#8ac926",
+              "#00b4d8",
+              "#e9c46a",
+            ]}
+          />
+        <View >
+          <TextInput
+          style={{ paddingHorizontal:120, paddingVertical:10, borderWidth:1, borderColor:'#ddd', borderRadius:20, marginBottom:10, marginTop:10 }}
+          onChangeText={ value => { searchFilterFunction(value) } }
+          placeholder="Search by Job Title"
+          />
+        </View>
         
         <FlatList
 
-        ListHeaderComponent={renderHeader}
-          data={data}
+          data={filteredDataSource}
           keyExtractor={item => item.job_id}
           renderItem={({ item }) => (
             <View style={styles.listItem}>
@@ -118,7 +216,8 @@ export default function Profile() {
                 style={styles.coverImage}
             />
               <View style={styles.metaInfo}>
-                <Text style={styles.title}>{`${item.job_title}`} <Text style={{color:'red'}}> {item.due_date }    </Text> </Text>
+                <Text style={styles.title}>{`${item.job_title}`}</Text>
+                <Text style={{color:'red', fontSize:9, marginTop:-7}}> <Text style={{color:'#030121'}}>posted: </Text>{moment(item.date_created).utcOffset("+03:00") .format("dddd MMM Do")}   <Text style={{color:'#030121'}}>due: </Text>{moment(item.due_date).utcOffset("+03:00") .format("dddd MMM Do")}  </Text> 
                 <Text style={styles.details}>{` ${item.job_company.initials }         ${item.job_type.type_name }          ${item.town.town_name }   `}</Text>   
               </View>
             </View>
@@ -148,10 +247,17 @@ export default function Profile() {
       marginTop: 20,
       fontWeight: '700'
     },
+    dropdown: {
+      fontSize: 20,
+      padding: 5,
+      marginVertical: 5,
+      borderRadius: 20,
+      paddingHorizontal: 30,
+    },
     listItem: {
       marginTop: 10,
       paddingVertical: 5,
-      paddingHorizontal: 25,
+      paddingHorizontal: 50,
       backgroundColor: '#fff',
       flexDirection: 'row',
       borderRadius: 15
