@@ -6,13 +6,16 @@ import Loader from "./inc/Loader";
 import ProfileHome from "./profile_home";
 import Login from "./login";
 
-
 global.width = Dimensions.get('window').width;
 global.height = Dimensions.get('window').height;
 
 export default function Profile() {
 
     const [ login_status, setLogin ] = useState(false);
+
+    const parentFunction = () => {
+      alert("i am working");
+    }
 
     const getLoginStatus = async () => {
         try {

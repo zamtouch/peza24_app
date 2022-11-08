@@ -14,6 +14,7 @@ import ViewProfile from './screens/view_profile';
 import Marketplace from './screens/marketplace';
 import ProfileMenu from './screens/profile_menu';
 import Login from './screens/login';
+import SignUp from './screens/signup';
 
 global.width = Dimensions.get('window').width;
 global.height = Dimensions.get('window').height;
@@ -90,10 +91,10 @@ function MyTabs() {
       />
 
       <Tab.Screen
-        name="Profile"
+        name="ProfileMenu"
         component={ProfileMenu}
         options={{
-          tabBarLabel: 'Profile',
+          tabBarLabel: 'My Account',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
@@ -115,6 +116,7 @@ export default function App() {
         <Stack.Screen name="Projects" component={Projects} />
         <Stack.Screen name="Podcasts" component={Podcasts} />
         <Stack.Screen name="ViewProfile" component={ViewProfile} />
+        <Stack.Screen name="SignUp" component={SignUp} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
-import { Text, View, Image, TextInput, Pressable, StyleSheet, ImageBackground, KeyboardAvoidingView } from 'react-native';
-
+import { Text, View, Image, TouchableOpacity, TextInput, Modal, Pressable, StyleSheet, ImageBackground, KeyboardAvoidingView } from 'react-native';
+import { Feather, FontAwesome, FontAwesome5, Entypo, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { Dimensions } from 'react-native';
-
+import { useNavigation, CommonActions } from '@react-navigation/native'
 
 global.width = Dimensions.get('window').width;
 global.height = Dimensions.get('window').height;
@@ -13,8 +13,110 @@ export default function Login() {
 
     const [ pw, setPw ] = useState(null);
 
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const reset = () => {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [
+            { name: 'ProfileName' }
+          ],
+        })
+      );
+    }
+
+    const storeData = async (value) => {
+      try {
+     //   const value = JSON.stringify(value)
+       // await AsyncStorage.setItem('access_token', value);
+        await AsyncStorage.setItem('@login_status', 1);
+        alert("done");
+    //    navigation.navigate("ProfileMenu");
+      //  reset(); 
+
+      } catch (e) {
+        // saving error
+      }
+    }
+
+    const sign_up = () => {
+
+      setModalVisible(false);
+      navigation.navigate("SignUp");
+
+    }
+
+    const login = () => {
+      
+      const options = {
+        method: 'POST',
+        headers: {'content-type': 'application/json'},
+        body: JSON.stringify({
+          
+          "email": email,
+          "password": pw
+          
+        })
+      };
+  
+      fetch('https://cms.peza24.com/auth/login', options)
+        .then(response => response.json())
+        .then(response => {
+          
+          if ( response.hasOwnProperty("data") ) {
+
+            storeData( response.data.access_token );
+            
+          } else {
+            
+            alert( response.errors[0].message );
+          
+          }
+           
+        })
+        .catch(err => console.error(err));
+
+    }
+
+    const navigation = useNavigation();
+
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}  style={{ flex:1, backgroundColor:'#fff' }}>
+   <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text>Create an account</Text>
+            <Text style={{ fontSize:36 }}>I am a</Text>
+
+            <Pressable
+              style={[styles.button4]}
+              onPress={() => { global.sign_up_url = "https://app.peza24.com/signup-freelancer", sign_up() } }>
+             <Text style={styles.textStyle}><FontAwesome size={12} color="#fff" name="user-circle" /> Customer / Freelancer</Text>
+            </Pressable>
+
+            <Pressable
+              style={[styles.button4]}
+              onPress={() => { global.sign_up_url = "https://app.peza24.com/signup-business", sign_up() } }>
+              <Text style={styles.textStyle}><FontAwesome size={12} color="#fff" name="briefcase" /> Business</Text>
+            </Pressable>
+  
+     
+                   <Pressable
+              style={{ padding:10, borderRadius:30, borderColor:'#ddd', minWidth:'60%', borderWidth:1, marginVertical:30 }}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={{ color:'#999', alignSelf:'center' }}>Cancel</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
 <ImageBackground source={require('../assets/peza24-login.jpg')} style={{ flex:1, padding:'10%', justifyContent:'flex-end' }}>
 <Text style={{ fontSize:36, marginVertical:5, color:'#fff' }}>Login<Text style={{ color:'#dd0000' }}>.</Text></Text>
 <Text style={{ marginVertical:10, color:'#fff' }}>Manage your account, projects, products/services & so much more.</Text>
@@ -34,8 +136,8 @@ export default function Login() {
       />
 
 <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}>
+              style={[styles.button]}
+              onPress={() => login() }>
               <Text style={styles.textStyle}>Login</Text>
             </Pressable>
 
@@ -69,5 +171,59 @@ const styles = StyleSheet.create({
         marginTop:30,
         backgroundColor:'#000020',
         alignItems:'center'
-      }
+      },
+      button3: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+        marginTop:30,
+        backgroundColor:'#000020',
+        alignItems:'center'
+      },
+
+      button4: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+        marginTop:30,
+        backgroundColor:'#000020',
+        minWidth:'60%',
+        alignItems:'center'
+      },
+      centeredView: {
+        justifyContent: 'center',
+        backgroundColor:'transparent'
+      },
+      modalView: {
+        margin: 20,
+        justifyContent: 'center',
+        alignItems:'center',
+        backgroundColor: '#fff',
+        borderRadius: 20,
+        padding: 10,
+        height:'65%',
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+      },
+      buttonOpen: {
+        backgroundColor: '#F194FF',
+      },
+      buttonClose: {
+        backgroundColor: '#222',
+      },
+      textStyle: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+      },
+      modalText: {
+        marginBottom: 15,
+        textAlign: 'center',
+      },
   });
