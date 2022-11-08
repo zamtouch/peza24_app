@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Text, View, StyleSheet, Image, ImageBackground, FlatList, ScrollView, TouchableOpacity,TextInput, Component } from 'react-native';
 import moment from "moment";
-import Moment from 'react-moment';
 import { Ionicons, FontAwesome, FontAwesome5, Entypo, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import filter from 'lodash.filter';
 import DropDownPicker from 'react-native-dropdown-picker';
