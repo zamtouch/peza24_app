@@ -178,10 +178,11 @@ export default function Home({navigation}) {
                 <View style={{ flexDirection:'row', flex:1, borderRadius:5, borderWidth:0.5, padding:10, margin:5, borderColor:'#ddd' }}>
 
 
-<View>
-<Text style={{ fontWeight:'bold', fontSize:11 }}>ZAR</Text>
-<Text>K{rates.rand.toFixed(2)}</Text>
-</View>
+     
+                <TouchableOpacity onPress={ () => calc( rates.rand.toFixed(2), 'RAND' ) }>
+                <Text style={{ fontWeight:'bold', fontSize:11 }}>RAND</Text>
+                <Text>K{rates.rand.toFixed(2)}</Text>
+                </TouchableOpacity>
 </View>
 </View>
                 </View>

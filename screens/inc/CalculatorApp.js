@@ -2,6 +2,10 @@ import React, {useState, useEffect, forwardRef, useRef, useImperativeHandle } fr
 import { Alert, Modal, StyleSheet, Text, Pressable, TextInput, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 const VideoApp = forwardRef((props, ref) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [newRate, setRate] = useState(0);
@@ -18,7 +22,10 @@ const VideoApp = forwardRef((props, ref) => {
 
   const check = ( value ) => {
 
-    setRate( value * global.rate );
+    var res = value * global.rate;
+    var final = numberWithCommas( res );
+
+    setRate( final );
 
   }
 
@@ -36,16 +43,19 @@ const VideoApp = forwardRef((props, ref) => {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
+            <View style={{ flex:1, padding:20 }}>
   
-     <Text>Currency Calculator</Text>
-     <Text>K{newRate}</Text>
-
+     <Text style={{ fontSize:28, fontWeight:'bold' }}>Currency Converter</Text>
+     <Text style={{ paddingVertical:20, fontSize:20 }}>K{newRate}</Text>
+<Text style={{ marginVertical:10 }}>{"Enter "+global.currency+" amount"}</Text>
      <TextInput
         style={{ paddingHorizontal:10, paddingVertical:8, borderWidth:1, borderColor:'#ddd', minWidth: global.width * 0.5 , borderRadius:10, marginBottom:10 }}
         onChangeText={ value => { check(value) } }
-        placeholder="eg. 10000"
+        placeholder={ "eg. 10000" }
         keyboardType='numeric'
       />
+      <Text style={{ marginVertical:10 }}>{global.currency+" Rate @ K"+global.rate + ""}</Text>
+      </View>
                    <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}>

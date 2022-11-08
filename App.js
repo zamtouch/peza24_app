@@ -10,6 +10,10 @@ import Jobs from './screens/jobs';
 import Promos from './screens/promos';
 import Projects from './screens/projects';
 import Podcasts from './screens/podcasts';
+import ViewProfile from './screens/view_profile';
+import Marketplace from './screens/marketplace';
+import ProfileMenu from './screens/profile_menu';
+import Login from './screens/login';
 
 global.width = Dimensions.get('window').width;
 global.height = Dimensions.get('window').height;
@@ -23,28 +27,7 @@ function Logo() {
   );
 }
 
-function Profile() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Profile!</Text>
-    </View>
-  );
-}
 
-function Notifications() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Notifications!</Text>
-    </View>
-  );
-
-}function Marketplace() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Notifications!</Text>
-    </View>
-  );
-}
 
 const Stack = createNativeStackNavigator();
 
@@ -108,7 +91,7 @@ function MyTabs() {
 
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        component={ProfileMenu}
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color }) => (
@@ -131,7 +114,7 @@ export default function App() {
         />
         <Stack.Screen name="Projects" component={Projects} />
         <Stack.Screen name="Podcasts" component={Podcasts} />
-        <Stack.Screen name="Settings" component={Home} />
+        <Stack.Screen name="ViewProfile" component={ViewProfile} />
       </Stack.Navigator>
     </NavigationContainer>
   );

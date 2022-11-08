@@ -2,9 +2,11 @@ import React, {useState, useEffect, forwardRef, useRef, useImperativeHandle } fr
 import { Alert, Modal, StyleSheet, Text, Pressable,Image, View, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { FontAwesome } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native'
 
-const VideoApp = forwardRef((props, ref) => {
+const PortfolioApp = forwardRef((props, ref) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const navigation = useNavigation();
 
   useImperativeHandle(ref, () => ({
   
@@ -59,7 +61,9 @@ const VideoApp = forwardRef((props, ref) => {
     <View style={{ alignItems:'center' }}>
     <Text style={{ marginVertical:15, fontWeight:'bold', fontSize:16 }}>{global.project.project_name}</Text>
         <Text>Created by:</Text>
-        <TouchableOpacity style={{ marginVertical:15, padding:10, backgroundColor:'#222', borderRadius:15 }}><Text style={{ color:'#fff' }}><FontAwesome style={styles.iconstyle} size={13} name="user" /> {global.project.user_created.first_name}</Text></TouchableOpacity>
+        <TouchableOpacity onPress={ () => { navigation.navigate( "ViewProfile", {
+              user: global.project.user_created
+            } ), setModalVisible(!modalVisible) } } style={{ marginVertical:15, padding:10, backgroundColor:'#222', borderRadius:15 }}><Text style={{ color:'#fff' }}><FontAwesome style={styles.iconstyle} size={13} name="user" /> {global.project.user_created.first_name}</Text></TouchableOpacity>
         <Text style={{ fontWeight:'bold', marginTop:15 }}>Project Category:</Text>
         <Text>{global.project.main_category.name}</Text>
         <Text style={{ marginTop:15, fontWeight:'bold' }}>Description</Text>
@@ -128,4 +132,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default VideoApp;
+export default PortfolioApp;
