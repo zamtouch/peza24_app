@@ -13,6 +13,7 @@ import Podcasts from './screens/podcasts';
 import ViewProfile from './screens/view_profile';
 import Marketplace from './screens/marketplace';
 import ProfileMenu from './screens/profile_menu';
+import ProfilePage from './screens/profile_page';
 import Login from './screens/login';
 import SignUp from './screens/signup';
 
@@ -116,6 +117,9 @@ export default function App() {
         <Stack.Screen name="Projects" component={Projects} />
         <Stack.Screen name="Podcasts" component={Podcasts} />
         <Stack.Screen name="ViewProfile" component={ViewProfile} />
+        <Stack.Screen name="ProfilePage" component={ProfilePage} 
+             options={{ headerShown: true, headerTitle: (props) => <Logo {...props} /> }}
+        />
         <Stack.Screen name="SignUp" component={SignUp} />
       </Stack.Navigator>
     </NavigationContainer>

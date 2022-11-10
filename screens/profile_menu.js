@@ -13,19 +13,17 @@ export default function Profile() {
 
     const [ login_status, setLogin ] = useState(false);
 
-    const parentFunction = () => {
-      alert("i am working");
-    }
-
     const getLoginStatus = async () => {
         try {
-          const value = await AsyncStorage.getItem('@login_status')
+          const value = await AsyncStorage.getItem('login_status');
+          const access_token = await AsyncStorage.getItem('access_token');
           if ( value !== null ) {
             // value previously stored
-              if ( value !== 1 ) {
+              if ( value !== '1' ) {
                 setLogin( true );
                 setLoader( false );
-                return
+              } else {
+                global.access_token = access_token;
               }
 
           } else {
@@ -47,7 +45,7 @@ export default function Profile() {
 
       return (
 <View style={{ flex:1 }}>
-        { login_status ? <Login /> : <ProfileHome /> }
+        { login_status ? <Login setLogin={setLogin} /> : <ProfileHome setLogin={setLogin} /> }
         </View>
       );
         
