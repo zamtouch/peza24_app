@@ -2,14 +2,25 @@ import React, {useState, useEffect, forwardRef, useRef, useImperativeHandle } fr
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
 const VideoApp = forwardRef((props, ref) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [play] = useState( props.video1 );
+  const [count, setCount] = useState( 0 );
 
   useImperativeHandle(ref, () => ({
   
     getAlert() {
-      console.log( global.play_video );
+
+      console.log( "my props "+ JSON.stringify( props ) );
+      var num = getRandomInt(3);
+      setCount( num );
       setModalVisible( true );
+
   }
 
   }));
@@ -31,7 +42,8 @@ const VideoApp = forwardRef((props, ref) => {
   
           <WebView
       style={{ flex:1, borderRadius:10 }}
-      source={{ uri: 'https://www.youtube.com/embed/' + global.play_video }}
+      shouldStartLoadWithRequest={false}
+      source={{ uri: 'https://www.youtube.com/embed/' + global.play_video + '?v=' + count }}
     />
                    <Pressable
               style={[styles.button, styles.buttonClose]}

@@ -54,7 +54,7 @@ const VideoApp = forwardRef((props, ref) => {
         placeholder={ "eg. 10000" }
         keyboardType='numeric'
       />
-      <Text style={{ marginVertical:10 }}>{global.currency+" Rate @ K"+global.rate + ""}</Text>
+      <Text style={{ marginVertical:10, color:'#bb0000' }}>{global.currency+" Rate @ K"+global.rate + ""}</Text>
       </View>
                    <Pressable
               style={[styles.button, styles.buttonClose]}

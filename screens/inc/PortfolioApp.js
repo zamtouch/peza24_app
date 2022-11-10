@@ -94,12 +94,12 @@ const styles = StyleSheet.create({
     backgroundColor:'rgba(0,0,0,0.85)'
   },
   modalView: {
+
     margin: 20,
- 
     backgroundColor: '#fff',
     borderRadius: 20,
     padding: 10,
-    height:'85%',
+    height:'90%',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

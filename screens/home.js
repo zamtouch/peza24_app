@@ -10,6 +10,7 @@ import CatalogueApp from "./inc/CatalogueApp";
 export default function Home({navigation}) {
 
     const [ greet, setGreet ] = useState(null);
+    const [ video1, setVideo1 ] = useState(null);
 
     const [fv, setFv] = useState([
         {
@@ -55,7 +56,8 @@ export default function Home({navigation}) {
     
       const play = ( video_id ) => {
         global.play_video = video_id;
-        childRef.current.getAlert()
+        setVideo1( video_id );
+        childRef.current.getAlert(video_id)
       }  
       
       const playCatalogue = ( c ) => {
@@ -101,7 +103,7 @@ export default function Home({navigation}) {
             
     
             var featured_videos = response[1].data;
-    console.log( featured_videos );
+
             setFv(featured_videos);
     
             setSite(response[0].data);
@@ -148,7 +150,7 @@ export default function Home({navigation}) {
   return (
     <ScrollView style={{ flex: 1, backgroundColor:'#fff' }}>
       {loader? <Loader /> : null }
-          <VideoApp ref={childRef} />
+          <VideoApp video1={video1} ref={childRef} />
           <CatalogueApp ref={childRef2} />
           <CalculatorApp ref={childRef3} />
         <View style={{ flexDirection:'row', padding:15 }}>
@@ -163,14 +165,14 @@ export default function Home({navigation}) {
             </View>
 
             <View style={{ flex:1 }}>
-            <Text style={{ color:'#777', margin:5 }}>Exchange Calculator</Text>
+        
               <View style={{ flexDirection:'row', }}>
 
                 <View style={{ flexDirection:'row', flex:1, borderRadius:5, borderWidth:0.5, padding:10, margin:5, borderColor:'#ddd' }}>
 
                
                 <TouchableOpacity onPress={ () => calc( rates.usd.toFixed(2), 'USD' ) }>
-                <Text style={{ fontWeight:'bold', fontSize:11 }}>USD</Text>
+                <Text style={{ fontWeight:'bold', fontSize:11 }}><Ionicons style={styles.iconstyle} size={14} name="calculator" /> USD</Text>
                 <Text>K{rates.usd.toFixed(2)}</Text>
                 </TouchableOpacity>
                 </View>
@@ -180,7 +182,7 @@ export default function Home({navigation}) {
 
      
                 <TouchableOpacity onPress={ () => calc( rates.rand.toFixed(2), 'RAND' ) }>
-                <Text style={{ fontWeight:'bold', fontSize:11 }}>RAND</Text>
+                <Text style={{ fontWeight:'bold', fontSize:11 }}><Ionicons style={styles.iconstyle} size={14} name="calculator" /> ZAR</Text>
                 <Text>K{rates.rand.toFixed(2)}</Text>
                 </TouchableOpacity>
 </View>
@@ -202,15 +204,15 @@ export default function Home({navigation}) {
         horizontal={true}
         data={fv}
         renderItem={ ({item}) => (
-            <View key={item.id} style={{  width: global.width * 0.75, paddingRight:15, height: global.width * 0.58 }}>
+            <View key={item.id} style={{  width: global.width * 0.85, marginRight:20, height: global.width * 0.58 }}>
        
-        
+       <TouchableOpacity style={{ background: 'blue' }} onPress={() => play( item.video_id )} >
               <ImageBackground imageStyle={{ borderRadius:5 }} source={{ uri: "https://img.youtube.com/vi/" + item.video_id + "/hqdefault.jpg" }} resizeMode="cover" style={{ alignItems:'center', justifyContent:'center', width:'100%', height: global.width * 0.45 }}>
-        <TouchableOpacity onPress={() => play( item.video_id )} >
+        
         <Image source={require("../assets/play.png")} style={{ height:80 }} resizeMode="contain" />
-        </TouchableOpacity>
+      
               </ImageBackground>
-           
+              </TouchableOpacity>
          
                <Text numberOfLines={2} ellipsizeMode='tail' style={{ marginTop: 10,  }}>{item.title}</Text>
                </View> 
@@ -266,20 +268,20 @@ export default function Home({navigation}) {
       </View>
       </ScrollView>
 <View style={{ flexDirection:'row', marginTop:20 }}>
-<Text style={{ flex:1, fontSize:20, fontWeight:'bold', marginLeft: 15 }}>Latest Sales & Promos<Text style={{ color:'#cc0000' }}>.</Text></Text>
+<Text style={{ flex:1, fontSize:20, fontWeight:'bold', marginLeft: 15, marginBottom:15 }}>Latest Sales & Promos<Text style={{ color:'#cc0000' }}>.</Text></Text>
 <TouchableOpacity onPress={ () => { navigation.navigate( 'Promos' ) } }><Text style={{ marginRight:15, fontSize:20, color:'#777' }}>See all</Text></TouchableOpacity>
 </View>
 
-        <View style={{ flexDirection:'row', padding:15, marginBottom:15 }}>
+        <View style={{ flexDirection:'row', paddingLeft:15, marginBottom:15 }}>
     
         <FlatList
         horizontal={true}
         data={promos}
         renderItem={ ({item}) => (
-            <TouchableOpacity onPress={() => playCatalogue( item )} key={item.id} style={{  width: global.width * 0.40, paddingRight:10, height: global.width * 0.85 }}>
+            <TouchableOpacity onPress={() => playCatalogue( item )} key={item.id} style={{  width: global.width * 0.50, paddingRight:10, height: global.width * 0.85 }}>
        
         
-              <ImageBackground imageStyle={{ borderRadius:5, borderColor:'#ddd', borderWidth:1 }} source={{ uri: "https://cms.peza24.com/assets/" + item.featured_image.id }} resizeMode="contain" style={{ alignItems:'center', justifyContent:'center', width:'100%', height: global.width * 0.60 }}>
+              <ImageBackground imageStyle={{ borderRadius:5, borderColor:'#ddd', borderWidth:1 }} source={{ uri: "https://cms.peza24.com/assets/" + item.featured_image.id }} resizeMode="cover" style={{ alignItems:'center', justifyContent:'center', width:'100%', height: global.width * 0.60 }}>
    
               </ImageBackground>
            
@@ -302,17 +304,11 @@ export default function Home({navigation}) {
   <Text style={{ margin:15, color:'#222', fontWeight:'bold'  }}>VIEW PROJECTS <FontAwesome style={styles.iconstyle} size={13} name="arrow-right" /></Text>
 </TouchableOpacity>
 </View>
-<Image source={{ uri: 'https://cms.peza24.com/assets/' + site?.network_banner }} style={{ width:'100%', height:300 }} />
-<View style={{ backgroundColor:'#fff', padding:15, alignItems:'center', width:'100%' }}>
-  <Text style={{ color:'#999' }}>Join the Peza24 community today</Text>
-  <TouchableOpacity style={{ margin:10, backgroundColor:'transparent', borderColor:'#999', borderWidth:1, borderRadius:10 }}><Text style={{ margin:15, color:'#222',  }}>Create Account / Login</Text></TouchableOpacity>
-</View>
+<Image source={{ uri: 'https://cms.peza24.com/assets/' + site?.network_banner }} resizeMode="contain" style={{ width:'100%', height: global.height * 0.35 }} />
 
-<Image source={{ uri: 'https://cms.peza24.com/assets/' + site?.awards_banner }} style={{ width:'100%', height:300 }} />
-<View style={{ backgroundColor:'#fff', padding:15, alignItems:'center', width:'100%' }}>
-  <Text style={{ color:'#999' }}>Join the Peza24 community today</Text>
-  <TouchableOpacity style={{ margin:10, backgroundColor:'transparent', borderColor:'#999', borderWidth:1, borderRadius:10 }}><Text style={{ margin:15, color:'#222',  }}>Learn More</Text></TouchableOpacity>
-</View>
+
+<Image source={{ uri: 'https://cms.peza24.com/assets/' + site?.awards_banner }} resizeMode="contain" style={{ width:'100%', height: global.height * 0.34 }} />
+
 
         </View>
     </ScrollView>

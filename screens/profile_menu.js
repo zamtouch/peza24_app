@@ -9,7 +9,7 @@ import Login from "./login";
 global.width = Dimensions.get('window').width;
 global.height = Dimensions.get('window').height;
 
-export default function Profile() {
+export default function Profile({navigation}) {
 
     const [ login_status, setLogin ] = useState(false);
 
@@ -39,9 +39,16 @@ export default function Profile() {
       
       React.useEffect(() => {
     
-        getLoginStatus();
+        const unsubscribe = navigation.addListener('focus', () => {
+          getLoginStatus();
+          // The screen is focused
+          // Call any action
+        });
+    
+        // Return the function to unsubscribe from the event so it gets removed on unmount
+        return unsubscribe;
       
-      }, []);
+      }, [navigation]);
 
       return (
 <View style={{ flex:1 }}>

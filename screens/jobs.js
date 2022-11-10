@@ -209,7 +209,7 @@ export default function Profile() {
           data={filteredDataSource}
           keyExtractor={item => item.job_id}
           renderItem={({ item }) => (
-            <View style={styles.listItem}>
+            <View key={item.job_id} style={styles.listItem}>
               <Image
               source={{ uri: 'https://peza24.com/img/logos/peza24.png' }}
                 style={styles.coverImage}

@@ -90,6 +90,7 @@ export default function Login(props) {
           //save user_data
           save_user(response.data);
           storeData(token);
+          
    
         } else {
           alert(response.errors[0].message);
@@ -114,6 +115,7 @@ export default function Login(props) {
         if (response.hasOwnProperty("data")) {
           //get user data & save user_data
           get_user(response.data.access_token);
+          global.access_token = response.data.access_token;
           
       
          

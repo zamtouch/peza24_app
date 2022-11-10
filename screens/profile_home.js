@@ -31,11 +31,11 @@ export default function ProfileHome(props) {
     }
   };
 
-  const get_user_updates = () => {
+  const get_user_updates = (value) => {
     var myHeaders = new Headers();
     myHeaders.append(
       "Authorization",
-      "Bearer "+global.access_token
+      "Bearer "+value
     );
 
     var requestOptions = {
@@ -49,6 +49,7 @@ export default function ProfileHome(props) {
       .then((response) => {
         if (response.hasOwnProperty("data")) {
           //save user_data
+          console.log( "new user " + response.data )
           setUser( response.data );
           save_user( response.data );
    
@@ -69,7 +70,7 @@ export default function ProfileHome(props) {
             console.log( value );
             setToken( value );
             setUser( JSON.parse( my_profile ) );
-            get_user_updates();
+            get_user_updates(value);
 
       }
     } catch(e) {
@@ -101,8 +102,10 @@ export default function ProfileHome(props) {
 
   React.useEffect(() => {
     
+    get_user_updates( global.access_token );
     const unsubscribe = navigation.addListener('focus', () => {
       getToken();
+      get_user_updates( global.access_token );
       // The screen is focused
       // Call any action
     });
@@ -142,7 +145,7 @@ export default function ProfileHome(props) {
   <Text style={{ color:'#999' }}>{ user.title }</Text>
   </View>
 
-  { user.account_type == 1 ?
+  { user.account_type == 1 || user.account_type == 2 ?
     <View>
       <TouchableOpacity onPress={() => {
                 (global.profile_url =
