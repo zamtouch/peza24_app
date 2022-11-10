@@ -128,10 +128,15 @@ export default function ProfileHome(props) {
     <View style={{ justifyContent:'center', alignItems:'center', height: global.width * 0.40, backgroundColor:'#222' }}></View>
   }
   <View style={{ alignItems:'center', padding:15 }}>
+    <TouchableOpacity onPress={() => {
+                (global.profile_url =
+                  "https://app.peza24.com/mobile/my-profile-pic.php?a="+global.access_token+"&v=1"),
+                  navigation.navigate('ProfilePage');
+              }} >
     { user.profile_pic?
       <Image source={{ uri: "https://media.peza24.com/profile/" + user.profile_pic }} style={{ height:100, width: 100, borderRadius:100, borderColor:'#fff', borderWidth:4, marginTop:-50 }} />:
       null}
-
+</TouchableOpacity>
   <View style={{ alignItems:'center', padding:10 }}>
   <Text>{ user.first_name }</Text>
   <Text style={{ color:'#999' }}>{ user.title }</Text>
@@ -159,7 +164,11 @@ export default function ProfileHome(props) {
                   "https://app.peza24.com/mobile/my-portfolio.php?a="+global.access_token+"&v=1.1"),
                   navigation.navigate('ProfilePage');
               }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="images" /> My Portfolio</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
-      <TouchableOpacity style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="coins" /> My Services</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+      <TouchableOpacity onPress={() => {
+                (global.profile_url =
+                  "https://app.peza24.com/mobile/my-services.php?a="+global.access_token+"&v=1.1"),
+                  navigation.navigate('ProfilePage');
+              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="coins" /> My Services</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
       <TouchableOpacity style={ styles.menu_item }><Text style={styles.menu_text}><Feather style={styles.iconstyle1} name="settings" /> Account Settings</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
     </View> 
     : null
