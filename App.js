@@ -10,6 +10,7 @@ import Jobs from './screens/jobs';
 import Promos from './screens/promos';
 import Projects from './screens/projects';
 import Podcasts from './screens/podcasts';
+import Services from './screens/services';
 import ViewProfile from './screens/view_profile';
 import Marketplace from './screens/marketplace';
 import ProfileMenu from './screens/profile_menu';
@@ -116,6 +117,7 @@ export default function App() {
         />
         <Stack.Screen name="Projects" component={Projects} />
         <Stack.Screen name="Podcasts" component={Podcasts} />
+        <Stack.Screen name="Services" component={Services} />
         <Stack.Screen name="ViewProfile" component={ViewProfile} />
         <Stack.Screen name="ProfilePage" component={ProfilePage} 
              options={{ headerShown: true, headerTitle: (props) => <Logo {...props} /> }}

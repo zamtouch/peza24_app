@@ -240,7 +240,7 @@ export default function Home({navigation}) {
             <Text style={styles.icontext}>Freelance Projects</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={ () => { navigation.navigate( 'Projects' ) } }>
+        <TouchableOpacity onPress={ () => { navigation.navigate( 'Services' ) } }>
         <View style={styles.iconButtons}>
             <FontAwesome5 style={styles.iconstyle} size={24} name="users" />
             </View>

@@ -16,9 +16,6 @@ export default function ProfileHome(props) {
 
   const navigation = useNavigation();
 
-  const checkTokenValidity = () => {
-    //checks if user can get personal data and updates user data
-  }
 
   const save_user = async (value) => {
     try {
@@ -54,7 +51,12 @@ export default function ProfileHome(props) {
           save_user( response.data );
    
         } else {
-          alert(response.errors[0].message);
+          console.log( response );
+          if ( response.errors[0].message == "Invalid user credentials." ) {
+            logout();
+            
+          }
+         // alert(response.errors[0].message);
         }
       })
       .catch((err) => console.error(err));
@@ -172,6 +174,11 @@ export default function ProfileHome(props) {
                   "https://app.peza24.com/mobile/my-services.php?a="+global.access_token+"&v=1.1"),
                   navigation.navigate('ProfilePage');
               }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="coins" /> My Services</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+                (global.profile_url =
+                  "https://app.peza24.com/mobile/my-orders.php?a="+global.access_token+"&v=1.1"),
+                  navigation.navigate('ProfilePage');
+              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="coins" /> My Orders</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
       <TouchableOpacity style={ styles.menu_item }><Text style={styles.menu_text}><Feather style={styles.iconstyle1} name="settings" /> Account Settings</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
     </View> 
     : null

@@ -88,10 +88,17 @@ export default function Marketplace({route}) {
     <Text style={{ color:'red' }}>screen two</Text>
   </View>
   );
+
+  const ThirdRoute = () => (
+    <View style={{ flex: 1 }}>
+    <Text style={{ color:'red' }}>screen two</Text>
+  </View>
+  );
   
   const renderScene = SceneMap({
     first: FirstRoute,
     second: SecondRoute,
+    third: ThirdRoute,
   });
 
   const [user] = useState( route.params.user );
@@ -102,7 +109,8 @@ export default function Marketplace({route}) {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'first', title: 'Projects' },
-    { key: 'second', title: 'About Me' },
+    { key: 'second', title: 'Services' },
+    { key: 'third', title: 'About Me' },
   ]);
 
   const play = ( video_id ) => {
