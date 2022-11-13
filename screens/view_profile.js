@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Text, View, FlatList, Image, StatusBar, StyleSheet, ImageBackground, TouchableOpacity, ScrollView, useWindowDimensions } from 'react-native';
-import { TabView, SceneMap } from 'react-native-tab-view';
+import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import VideoApp from "./inc/VideoApp";
 import { Dimensions } from 'react-native';
 import PortfolioApp from "./inc/PortfolioApp";
@@ -8,10 +8,15 @@ import PortfolioApp from "./inc/PortfolioApp";
 global.width = Dimensions.get('window').width;
 global.height = Dimensions.get('window').height;
 
-
-
-
 export default function Marketplace({route}) {
+
+  const renderTabBar = props => (
+    <TabBar
+      {...props}
+      indicatorStyle={{ backgroundColor: '#cc0000' }}
+      style={{ backgroundColor: '#000020'  }}
+    />
+  );
 
   const FirstRoute = () => (
 
@@ -181,7 +186,8 @@ export default function Marketplace({route}) {
       navigationState={{ index, routes }}
       renderScene={renderScene}
       onIndexChange={setIndex}
-      initialLayout={{ width: layout.width, flex:1 }}
+      renderTabBar={renderTabBar}
+      initialLayout={{ width: layout.width, flex:1, backgroundColor:'red' }}
     />
 </View>
   );

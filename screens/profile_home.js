@@ -140,7 +140,7 @@ export default function ProfileHome(props) {
               }} >
     { user.profile_pic?
       <Image source={{ uri: "https://media.peza24.com/profile/" + user.profile_pic }} style={{ height:100, width: 100, borderRadius:100, borderColor:'#fff', borderWidth:4, marginTop:-50 }} />:
-      null}
+      <Image source={require('../assets/user_placeholder.jpg')} style={{ height:100, width: 100, borderRadius:100, borderColor:'#fff', borderWidth:4, marginTop:-50 }} />}
 </TouchableOpacity>
   <View style={{ alignItems:'center', padding:10 }}>
   <Text>{ user.first_name }</Text>
