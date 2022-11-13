@@ -2,14 +2,16 @@ import React, { useState, useRef } from "react";
 import { Text, View, StyleSheet, Image, ImageBackground, FlatList, ScrollView, TouchableOpacity,TextInput, Component } from 'react-native';
 import moment from "moment";
 import { Ionicons, FontAwesome, FontAwesome5, Entypo, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-import filter from 'lodash.filter';
+import JobApp from "./inc/JobApp";
 import DropDownPicker from 'react-native-dropdown-picker';
+import Loader from "./inc/Loader";
 //import Dropdown from './components/Dropdown';
 
 export default function Profile() {
 
   //dropdown
   const [value, setValue] = useState(17);
+  const [loader, setLoader] = useState(true);
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState([]);
   const [filteredDataSource, setFilteredDataSource] = useState([]);
@@ -44,10 +46,9 @@ export default function Profile() {
       ).then((resp) => resp.json())
     ])
       .then(function (response) {
-
-        /*setTimeout(function() {
+        setTimeout(function () {
           setLoader(false);
-        }, 1000);*/
+        }, 1000);
         
         setJobs(response[0].data);
         setData(response[0].data);
@@ -72,10 +73,17 @@ export default function Profile() {
       });
   };
 
+
+  const play = (job_id) => {
+    global.job = job_id;
+    childRef.current.getAlert();
+  };
+
   React.useEffect(() => {
     get_jobs();
   },[]) 
 
+  const childRef = useRef(null);
   // search render function
   function renderHeader() {
     return (
@@ -165,11 +173,8 @@ export default function Profile() {
 
 
 <View style={styles.container}>
-
-      <View>
-      <Text style={styles.text}> {filteredDataSource.length} Available Jobs </Text>
-        
-      </View>
+{loader? <Loader /> : null }
+<JobApp ref={childRef} />
         
 
         
@@ -196,30 +201,28 @@ export default function Profile() {
               "#e9c46a",
             ]}
           />
-        <View >
+        <View>
           <TextInput
-          style={{ paddingHorizontal:120, paddingVertical:10, borderWidth:1, borderColor:'#ddd', borderRadius:20, marginBottom:10, marginTop:10 }}
+          style={{ paddingHorizontal:10, paddingVertical:'2%', borderWidth:1, borderColor:'#ddd', borderRadius:20, marginBottom:10, marginTop:10 }}
           onChangeText={ value => { searchFilterFunction(value) } }
           placeholder="Search by Job Title"
           />
         </View>
-        
+        <Text style={{ fontSize:11 }}> {filteredDataSource.length} Available Jobs </Text>
         <FlatList
 
           data={filteredDataSource}
           keyExtractor={item => item.job_id}
           renderItem={({ item }) => (
-            <View key={item.job_id} style={styles.listItem}>
-              <Image
-              source={{ uri: 'https://peza24.com/img/logos/peza24.png' }}
-                style={styles.coverImage}
-            />
+            <TouchableOpacity onPress={ () => play( item.id ) } key={item.id} style={styles.listItem}>
+            
+             
               <View style={styles.metaInfo}>
-                <Text style={styles.title}>{`${item.job_title}`}</Text>
-                <Text style={{color:'red', fontSize:9, marginTop:-7}}> <Text style={{color:'#030121'}}>posted: </Text>{moment(item.date_created).utcOffset("+03:00") .format("dddd MMM Do")}   <Text style={{color:'#030121'}}>due: </Text>{moment(item.due_date).utcOffset("+03:00") .format("dddd MMM Do")}  </Text> 
+                <Text style={styles.title}><FontAwesome5 style={styles.iconstyle1} name="briefcase" /> {`${item.job_title}`}</Text>
+                <Text style={{color:'#cc0000', fontSize:11, marginTop:-7}}> <Text style={{color:'#030121'}}>posted: </Text>{moment(item.date_created).utcOffset("+03:00") .format("dddd MMM Do")}   <Text style={{color:'#030121'}}>due: </Text>{moment(item.due_date).utcOffset("+03:00") .format("dddd MMM Do")}  </Text> 
                 <Text style={styles.details}>{` ${item.job_company.initials }         ${item.job_type.type_name }          ${item.town.town_name }   `}</Text>   
               </View>
-            </View>
+            </TouchableOpacity>
           )}
         />
       </View>
@@ -232,7 +235,7 @@ export default function Profile() {
     container: {
       flex: 1,
       backgroundColor: '#f8f8f8',
-      alignItems: 'center',
+      padding:15
     },
     card: {
       fontSize: 25,
@@ -256,9 +259,8 @@ export default function Profile() {
     listItem: {
       marginTop: 10,
       paddingVertical: 5,
-      paddingHorizontal: 50,
+      paddingHorizontal: 10,
       backgroundColor: '#fff',
-      flexDirection: 'row',
       borderRadius: 15
     },
     listcat: {
@@ -268,9 +270,6 @@ export default function Profile() {
       backgroundColor: '#fff',
       borderRadius: 15
     },
-    metaInfo: {
-      marginLeft: 10
-    },
     coverImage: {
       width: 60,
       height: 20,
@@ -278,13 +277,11 @@ export default function Profile() {
     },
     title: {
       fontSize: 15,
-      width: 200,
       padding: 10,
       fontWeight: '500'
     } ,
     details: {
-      fontSize: 10,
-      width: 200,
+      fontSize: 12,
       padding: 5
     } 
   });

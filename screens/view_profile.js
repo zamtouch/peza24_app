@@ -4,6 +4,7 @@ import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import VideoApp from "./inc/VideoApp";
 import { Dimensions } from 'react-native';
 import PortfolioApp from "./inc/PortfolioApp";
+import ServiceApp from "./inc/ServiceApp";
 
 global.width = Dimensions.get('window').width;
 global.height = Dimensions.get('window').height;
@@ -89,14 +90,89 @@ export default function Marketplace({route}) {
   );
   
   const SecondRoute = () => (
-    <View style={{ flex: 1 }}>
-    <Text style={{ color:'red' }}>screen two</Text>
+    <View style={{ flex: 1, padding:15 }}>
+          <FlatList
+            data={ services }
+            renderItem={({ item }) => (
+              <TouchableOpacity
+              onPress={() => playProject2(item)}
+              key={item.id}
+              style={{
+                flex: 1,
+              borderColor:'#ddd',
+              borderRadius:10,
+              borderWidth:1,
+                width:'100%',
+           marginBottom:15,
+                alignItems: "center",
+              }}
+            >
+              { item.listing_type == 1 ?
+              <ImageBackground
+                imageStyle={{
+                  borderRadius: 5,
+           
+                }}
+                source={{
+                  uri:
+                    "https://media.peza24.com/services/thumbnail_" + item.featured_image,
+                }}
+                resizeMode="contain"
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100%",
+                  height: global.width * 0.5,
+                }}
+              ></ImageBackground> :
+              <ImageBackground
+              imageStyle={{
+                borderRadius: 5,
+                borderColor: "#ddd",
+                borderWidth: 1,
+              }}
+              source={{ uri: "https://img.youtube.com/vi/" + item.video_id + "/hqdefault.jpg" }}
+              resizeMode="contain"
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                width: "100%",
+                height: global.width * 0.3,
+              }}
+            ></ImageBackground> }
+
+           
+              <Text
+                numberOfLines={1}
+          
+                style={{ marginTop: 10, fontSize:14,fontWeight:'bold', minHeight:30, color:'#222' }}
+              >
+                {item.name}
+              </Text>
+              <Text
+                numberOfLines={2}
+                ellipsizeMode="tail"
+                style={{ fontSize:11, minHeight:30, color:'#222' }}
+              > {item.description}</Text>
+
+<Text
+                numberOfLines={1}
+          
+                style={{ marginTop: 10, fontSize:14,fontWeight:'bold', minHeight:30, color:'#222' }}
+              >
+               From K{item.basic_plan_price}
+              </Text>
+   
+         </TouchableOpacity>
+            )}
+            keyExtractor={(item) => item.id}
+          />
   </View>
   );
 
   const ThirdRoute = () => (
-    <View style={{ flex: 1 }}>
-    <Text style={{ color:'red' }}>screen two</Text>
+    <View style={{ flex: 1, padding:15 }}>
+    <Text>{user.description}</Text>
   </View>
   );
   
@@ -110,6 +186,7 @@ export default function Marketplace({route}) {
   const [loader, setLoader] = useState(true);
   const layout = useWindowDimensions();
   const [projects, setProjects] = useState([]);
+  const [services, setServices] = useState([]);
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -128,6 +205,9 @@ export default function Marketplace({route}) {
       fetch(
         "https://cms.peza24.com/items/portfolio?filter[user_created]="+user.id+"&filter[status]=published&limit=100&fields=*.*.*"
       ).then((resp) => resp.json()),
+      fetch(
+        "https://cms.peza24.com/items/services?filter[user_created]="+user.id+"&filter[status]=published&limit=100&fields=*.*.*"
+      ).then((resp) => resp.json()),
     ])
       .then(function (response) {
         setTimeout(function () {
@@ -135,6 +215,7 @@ export default function Marketplace({route}) {
         }, 1000);
 
         setProjects(response[0].data);
+        setServices(response[1].data);
 
       })
       .catch(function (error) {
@@ -155,14 +236,22 @@ export default function Marketplace({route}) {
     childRef2.current.getAlert();
   };
 
+  const playProject2 = (c) => {
+    global.project = c;
+    childRef3.current.getAlert();
+  };
+
   const childRef = useRef(null);
 
   const childRef2 = useRef(null);
+
+  const childRef3 = useRef(null);
 
   return (
 <View style={{ flex:1 }}>
 <VideoApp ref={childRef} />
 <PortfolioApp ref={childRef2} />
+<ServiceApp ref={childRef3} />
   {user.my_bio_video?
     <ImageBackground source={{ uri: "https://img.youtube.com/vi/" + user.my_bio_video + "/hqdefault.jpg" }} resizeMode="cover"  style={{ justifyContent:'center', alignItems:'center', height: global.width * 0.50, backgroundColor:'#222' }}>
     <TouchableOpacity onPress={() => play( user.my_bio_video )} >

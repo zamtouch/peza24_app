@@ -98,7 +98,7 @@ export default function Home() {
   const get_data = () => {
     Promise.all([
       fetch(
-        "https://cms.peza24.com/items/podcast_categories"
+        "https://cms.peza24.com/items/podcast_categories?limit=100"
       ).then((resp) => resp.json()),
       fetch("https://cms.peza24.com/items/site_defaults").then((resp) =>
         resp.json()

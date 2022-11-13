@@ -100,7 +100,7 @@ export default function Home() {
   const get_data = () => {
     Promise.all([
       fetch(
-        "https://cms.peza24.com/items/main_categories"
+        "https://cms.peza24.com/items/main_categories?limit=100"
       ).then((resp) => resp.json()),
       fetch("https://cms.peza24.com/items/site_defaults").then((resp) =>
         resp.json()
@@ -150,7 +150,7 @@ export default function Home() {
         <Text
           style={{ flex: 1, fontSize: 20, fontWeight: "bold", marginLeft: 15 }}
         >
-          Projects<Text style={{ color: "#cc0000" }}>.</Text>
+         Freelancers/Consultant's Projects<Text style={{ color: "#cc0000" }}>.</Text>
         
         </Text>
        

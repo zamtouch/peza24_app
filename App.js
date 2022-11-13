@@ -3,7 +3,8 @@ import { Text, View, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { MaterialCommunityIcons, Entypo, Feather, FontAwesome } from '@expo/vector-icons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons, Feather } from '@expo/vector-icons';
 import { Dimensions } from 'react-native';
 import Home from './screens/home';
 import Jobs from './screens/jobs';
@@ -15,7 +16,6 @@ import ViewProfile from './screens/view_profile';
 import Marketplace from './screens/marketplace';
 import ProfileMenu from './screens/profile_menu';
 import ProfilePage from './screens/profile_page';
-import Login from './screens/login';
 import SignUp from './screens/signup';
 
 global.width = Dimensions.get('window').width;
@@ -34,75 +34,63 @@ function Logo() {
 
 const Stack = createNativeStackNavigator();
 
-const Tab = createMaterialBottomTabNavigator();
+const BottomTab = createBottomTabNavigator();
 
 function MyTabs() {
   return (
-    <Tab.Navigator
-      initialRouteName="Home"
-      activeColor="#cc0000"
-      inactiveColor="#777"
-      barStyle={{ backgroundColor: '#fff' }}
-    >
-      <Tab.Screen
-        name="Feed"
+    <BottomTab.Navigator
+      initialRouteName="TabOne"
+      screenOptions={{
+        tabBarActiveTintColor: '#cc0000',
+        tabBarActiveBackgroundColor:'#fff',
+        tabBarInactiveBackgroundColor:'#fff',
+        headerShown:false
+      }}>
+      <BottomTab.Screen
+        name="TabOne"
         component={Home}
-        options={{
+        options={() => ({
           title: 'Home',
-          tabBarLabel: 'Home',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="home" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Notifications"
-        component={Jobs}
-        options={{
-          tabBarLabel: 'Jobs & Tenders',
-          tabBarIcon: ({ color }) => (
-            <FontAwesome name="briefcase" color={color} size={26} />
-          ),
-          tabBarOptions: {
-            activeTintColor: 'tomato',
-            inactiveTintColor: 'gray',
-          }
-        }}
+          tabBarIcon: ({ color }) => <Ionicons name="home" color={color} size={20} />
+        })}
       />
 
-<Tab.Screen
+<BottomTab.Screen
+        name="Jobs"
+        component={Jobs}
+        options={() => ({
+          title: 'Jobs',
+          tabBarIcon: ({ color }) => <Ionicons name="briefcase" color={color} size={20} />
+  
+        })}
+      />
+      <BottomTab.Screen
         name="Promos"
         component={Promos}
         options={{
-          tabBarLabel: 'Promos',
-          tabBarIcon: ({ color }) => (
-            <Feather name="shopping-bag" color={color} size={26} />
-          ),
+          title: 'Sales & Promos',
+          tabBarIcon: ({ color }) => <Feather name="shopping-bag" color={color} size={20} />,
         }}
       />
 
-<Tab.Screen
+<BottomTab.Screen
         name="Marketplace"
         component={Marketplace}
         options={{
-          tabBarLabel: 'Marketplace',
-          tabBarIcon: ({ color }) => (
-            <Entypo name="shop" color={color} size={26} />
-          ),
+          title: 'Marketplace',
+          tabBarIcon: ({ color }) => <Feather name="shopping-cart" color={color} size={20} />,
         }}
       />
 
-      <Tab.Screen
-        name="ProfileMenu"
+<BottomTab.Screen
+        name="My Account"
         component={ProfileMenu}
         options={{
-          tabBarLabel: 'My Account',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
-          ),
+          title: 'My Account',
+          tabBarIcon: ({ color }) => <Feather name="user" color={color} size={20} />,
         }}
       />
-    </Tab.Navigator>
+    </BottomTab.Navigator>
   );
 }
 

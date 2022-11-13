@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Text, View, StyleSheet, Image, ImageBackground, FlatList, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Image, ImageBackground, FlatList, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import moment from "moment";
 import { Feather, FontAwesome, FontAwesome5, Entypo, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import VideoApp from "./inc/VideoApp";
@@ -79,17 +79,11 @@ export default function Home({navigation}) {
           fetch("https://cms.peza24.com/items/site_defaults").then(
             (resp) => resp.json()
           ),
-          fetch("https://cms.peza24.com/items/podcast_videos?sort=-date_created&limit=5").then(
-            (resp) => resp.json()
-          ),
           fetch(
             "https://cms.peza24.com/items/job_listings?limit=5&fields=*.*.*&sort=-date_created"
           ).then((resp) => resp.json()),
           fetch(
             "https://cms.peza24.com/items/fx_rates/1"
-          ).then((resp) => resp.json()),
-          fetch(
-            "https://cms.peza24.com/users?fields=*.*.*&limit=5&filter[featured_profile]=true"
           ).then((resp) => resp.json()),
           fetch(
             "https://cms.peza24.com/items/sales_and_promos?&sort=-date_created&filter[status]=published&limit=4&fields=*.*.*"
@@ -108,10 +102,9 @@ export default function Home({navigation}) {
     
             setSite(response[0].data);
     
-            setJobs(response[2].data);
-            setRates(response[3].data);
-            setUsers(response[4].data);
-            setPromos(response[5].data);
+            setJobs(response[1].data);
+            setRates(response[2].data);
+            setPromos(response[3].data);
     
     
           })
@@ -156,7 +149,7 @@ export default function Home({navigation}) {
         <View style={{ flexDirection:'row', padding:15 }}>
         <View style={{ flex:1 }}>
         
-            <View style={{ marginTop:15 }}>
+            <View style={{ }}>
      
             <Text style={{ fontSize:24, fontWeight:'bold' }}>{greet}<Text style={{ color:'#cc0000' }}>.</Text></Text>
             <Text style={{ color:'#999' }}>{moment().utcOffset('+03:00').format('dddd MMM Do YYYY')}</Text>
@@ -164,11 +157,11 @@ export default function Home({navigation}) {
          
             </View>
 
-            <View style={{ flex:1 }}>
+            <View>
         
               <View style={{ flexDirection:'row', }}>
 
-                <View style={{ flexDirection:'row', flex:1, borderRadius:5, borderWidth:0.5, padding:10, margin:5, borderColor:'#ddd' }}>
+                <View style={{ borderRadius:5, padding:5, margin:5 }}>
 
                
                 <TouchableOpacity onPress={ () => calc( rates.usd.toFixed(2), 'USD' ) }>
@@ -177,7 +170,7 @@ export default function Home({navigation}) {
                 </TouchableOpacity>
                 </View>
                 
-                <View style={{ flexDirection:'row', flex:1, borderRadius:5, borderWidth:0.5, padding:10, margin:5, borderColor:'#ddd' }}>
+                <View style={{ borderRadius:5, padding:5, margin:5 }}>
 
 
      
@@ -191,83 +184,44 @@ export default function Home({navigation}) {
         </View>
 
         <View>
-
-        <View style={{ flexDirection:'row', marginTop:20 }}>
-        <Text style={{ flex:1, fontSize:20, fontWeight:'bold', marginLeft: 15 }}>Zambian & African Podcasts<Text style={{ color:'#cc0000' }}>.</Text></Text>
-        <TouchableOpacity onPress={ () => { navigation.navigate( 'Podcasts' ) } }><Text style={{ marginRight:15, fontSize:20, color:'#999' }}>See all</Text></TouchableOpacity>
-</View>
-
         
-        <View style={{ flexDirection:'row', padding:15 }}>
-    
-        <FlatList
-        horizontal={true}
-        data={fv}
-        renderItem={ ({item}) => (
-            <View key={item.id} style={{  width: global.width * 0.85, marginRight:20, height: global.width * 0.58 }}>
-       
-       <TouchableOpacity style={{ background: 'blue' }} onPress={() => play( item.video_id )} >
-              <ImageBackground imageStyle={{ borderRadius:5 }} source={{ uri: "https://img.youtube.com/vi/" + item.video_id + "/hqdefault.jpg" }} resizeMode="cover" style={{ alignItems:'center', justifyContent:'center', width:'100%', height: global.width * 0.45 }}>
         
-        <Image source={require("../assets/play.png")} style={{ height:80 }} resizeMode="contain" />
-      
-              </ImageBackground>
-              </TouchableOpacity>
-         
-               <Text numberOfLines={2} ellipsizeMode='tail' style={{ marginTop: 10,  }}>{item.title}</Text>
-               </View> 
-  )}
-        keyExtractor={item => item.id}
-      />
 
+
+      <View style={{ flexDirection:'row', margin:15, marginBottom:15 }}>
+
+      <TouchableOpacity style={{ flex:1, alignItems:'center' }} onPress={ () => { navigation.navigate( 'Podcasts' ) } }>
        
-</View>
-
-<ScrollView horizontal={true}>
-      <View style={{ flexDirection:'row', marginLeft:15, marginBottom:15 }}>
-
-      <TouchableOpacity onPress={ () => { navigation.navigate( 'Podcasts' ) } }>
-        <View style={styles.iconButtons}>
             <Ionicons style={styles.iconstyle} size={24} name="videocam-outline" />
-            </View>
+         
             <Text style={styles.icontext}>Podcasts</Text>
         </TouchableOpacity>
 
-      <TouchableOpacity onPress={ () => { navigation.navigate( 'Projects' ) } }>
-        <View style={styles.iconButtons}>
-            <FontAwesome5 style={styles.iconstyle} size={24} name="images" />
-            </View>
-            <Text style={styles.icontext}>Freelance Projects</Text>
+      <TouchableOpacity style={{ flex:1, alignItems:'center' }}  onPress={ () => { navigation.navigate( 'Projects' ) } }>
+      
+            <Ionicons style={styles.iconstyle} size={24} name="images" />
+           
+            <Text style={styles.icontext}>Projects</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={ () => { navigation.navigate( 'Services' ) } }>
-        <View style={styles.iconButtons}>
-            <FontAwesome5 style={styles.iconstyle} size={24} name="users" />
-            </View>
-            <Text style={styles.icontext}>Freelance Services</Text>
+        <TouchableOpacity style={{ flex:1, alignItems:'center' }}  onPress={ () => { navigation.navigate( 'Services' ) } }>
+    
+            <Ionicons style={styles.iconstyle} size={24} name="list-circle" />
+          
+            <Text style={styles.icontext}>Services</Text>
         </TouchableOpacity>
 
+        <TouchableOpacity style={{ flex:1, alignItems:'center' }}  onPress={ () => { alert("Coming soon") } }>
+    
+    <Ionicons style={styles.iconstyle} size={24} name="people" />
+  
+    <Text style={styles.icontext}>Profiles</Text>
+</TouchableOpacity>
 
 
-        <TouchableOpacity onPress={ () => { navigation.navigate( 'Projects' ) } }>
-        <View style={styles.iconButtons}>
-            <FontAwesome5 style={styles.iconstyle} size={24} name="images" />
-            </View>
-            <Text style={styles.icontext}>Company Projects</Text>
-        </TouchableOpacity>
-
-
-
-        <TouchableOpacity onPress={() => report(1)}>
-        <View style={styles.iconButtons}>
-            <Ionicons style={styles.iconstyle} size={24} name="ios-trophy-outline" />
-            </View>
-            <Text style={styles.icontext}>Annual Awards</Text>
-        </TouchableOpacity>
- 
       </View>
-      </ScrollView>
-<View style={{ flexDirection:'row', marginTop:20 }}>
+    
+<View style={{ flexDirection:'row', marginTop:30 }}>
 <Text style={{ flex:1, fontSize:20, fontWeight:'bold', marginLeft: 15, marginBottom:15 }}>Latest Sales & Promos<Text style={{ color:'#cc0000' }}>.</Text></Text>
 <TouchableOpacity onPress={ () => { navigation.navigate( 'Promos' ) } }><Text style={{ marginRight:15, fontSize:20, color:'#777' }}>See all</Text></TouchableOpacity>
 </View>
@@ -278,7 +232,7 @@ export default function Home({navigation}) {
         horizontal={true}
         data={promos}
         renderItem={ ({item}) => (
-            <TouchableOpacity onPress={() => playCatalogue( item )} key={item.id} style={{  width: global.width * 0.50, paddingRight:10, height: global.width * 0.85 }}>
+            <TouchableOpacity onPress={() => playCatalogue( item )} key={item.id} style={{  width: global.width * 0.50, paddingRight:10, height: global.width * 0.95 }}>
        
         
               <ImageBackground imageStyle={{ borderRadius:5, borderColor:'#ddd', borderWidth:1 }} source={{ uri: "https://cms.peza24.com/assets/" + item.featured_image.id }} resizeMode="cover" style={{ alignItems:'center', justifyContent:'center', width:'100%', height: global.width * 0.60 }}>
@@ -297,17 +251,38 @@ export default function Home({navigation}) {
 
        
 </View>
-<View style={{ backgroundColor:'#f8ca2c', paddingVertical:15 }}>
+<View style={{ backgroundColor:'#f8ca2c', paddingVertical:30, alignItems:'center' }}>
+
+<Text style={{ margin:15, color:'#222', fontWeight:'bold', fontSize:28  }}>Browse Projects<Text style={{ color:'#cc0000' }}>.</Text></Text>
+<Text style={{ color:'#222', marginBottom:15 }}>Explore beautiful work from Peza24 members</Text>
 <Image source={{ uri: 'https://cms.peza24.com/assets/' + site?.portfolio_banner }} style={{ width:'100%', height: global.width * 0.35 }} />
-<TouchableOpacity onPress={() => navigation.navigate( 'Projects' )} style={{ backgroundColor:'#f8ca2c', padding:15, alignItems:'center', width:'100%' }}>
-  <Text style={{ color:'#222' }}>Explore beautiful work from Peza24 members</Text>
-  <Text style={{ margin:15, color:'#222', fontWeight:'bold'  }}>VIEW PROJECTS <FontAwesome style={styles.iconstyle} size={13} name="arrow-right" /></Text>
+
+<TouchableOpacity onPress={() => navigation.navigate( 'Projects' )} style={{ backgroundColor:'#f8ca2c', padding:10, marginTop:15, margin:10, alignItems:'center', width:'100%' }}>
+
+  <Text style={{ color:'#222', fontWeight:'bold'  }}>FREELANCERS / CONSULTANTS <FontAwesome style={styles.iconstyle} size={13} name="arrow-right" /></Text>
+</TouchableOpacity>
+
+<TouchableOpacity onPress={() => alert('coming soon')} style={{ backgroundColor:'#f8ca2c', padding:10, margin:10, alignItems:'center', width:'100%' }}>
+
+  <Text style={{ color:'#222', fontWeight:'bold'  }}>ZAMBIAN COMPANY <FontAwesome style={styles.iconstyle} size={13} name="arrow-right" /></Text>
 </TouchableOpacity>
 </View>
-<Image source={{ uri: 'https://cms.peza24.com/assets/' + site?.network_banner }} resizeMode="contain" style={{ width:'100%', height: global.height * 0.35 }} />
 
+<View style={{ backgroundColor:'#fff', alignItems:'center', paddingVertical:30 }}>
+<Text style={{ marginTop:15, color:'#222', fontWeight:'bold', fontSize:28  }}>Discover Services<Text style={{ color:'#cc0000' }}>.</Text></Text>
+<Text style={{ color:'#999' }}>Browse services available & prices</Text>
+<TouchableOpacity onPress={() => navigation.navigate( 'Services' )} style={{ backgroundColor:'#ffff', padding:10, marginTop:20, alignItems:'center', width:'100%' }}>
 
-<Image source={{ uri: 'https://cms.peza24.com/assets/' + site?.awards_banner }} resizeMode="contain" style={{ width:'100%', height: global.height * 0.34 }} />
+  <Text style={{ color:'#222', fontWeight:'bold'  }}>FREELANCERS / CONSULTANTS <FontAwesome style={styles.iconstyle} size={13} name="arrow-right" /></Text>
+</TouchableOpacity>
+
+<TouchableOpacity onPress={() => alert('coming soon') } style={{ backgroundColor:'#ffff', padding:10, margin:15, alignItems:'center', width:'100%' }}>
+
+  <Text style={{ color:'#222', fontWeight:'bold'  }}>ZAMBIAN COMPANY <FontAwesome style={styles.iconstyle} size={13} name="arrow-right" /></Text>
+</TouchableOpacity>
+</View>
+
+<Image source={{ uri: 'https://cms.peza24.com/assets/' + site?.awards_banner }} resizeMode="cover" style={{ width:'100%', height: global.width * 0.667 }} />
 
 
         </View>
@@ -330,11 +305,11 @@ const styles = StyleSheet.create({
       iconButtons: {
         alignItems:'center',
         marginRight:15,
-        width:100,
+        flex:1,
         borderColor:'#ddd',
         borderWidth:1,
         backgroundColor:'#fff',
-        padding:15,
+        padding:10,
         borderRadius:5
       },
       icontext: {

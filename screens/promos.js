@@ -110,7 +110,7 @@ export default function Home() {
   const get_data = () => {
     Promise.all([
       fetch(
-        "https://cms.peza24.com/items/catalogue_categories?sort=order"
+        "https://cms.peza24.com/items/catalogue_categories?sort=order&limit=100"
       ).then((resp) => resp.json()),
       fetch("https://cms.peza24.com/items/site_defaults").then((resp) =>
         resp.json()
@@ -159,7 +159,7 @@ export default function Home() {
         <Text
           style={{ flex: 1, fontSize: 20, fontWeight: "bold", marginLeft: 15 }}
         >
-          Latest Sales & Promos.<Text style={{ color: "#cc0000" }}>.</Text>
+          Latest Sales & Promos<Text style={{ color: "#cc0000" }}>.</Text>
         </Text>
         <Text style={{ marginRight: 15, fontSize: 16, color: "#777" }}>
           {filteredDataSource.length + " Listings"}

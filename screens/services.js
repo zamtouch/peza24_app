@@ -14,7 +14,7 @@ import moment from "moment";
 import {
   FontAwesome,
 } from "@expo/vector-icons";
-import PortfolioApp from "./inc/PortfolioApp";
+import ServiceApp from "./inc/ServiceApp";
 import DropDownPicker from "react-native-dropdown-picker";
 import Loader from "./inc/Loader";
 
@@ -100,7 +100,7 @@ export default function Home({ navigation }) {
   const get_data = () => {
     Promise.all([
       fetch(
-        "https://cms.peza24.com/items/main_categories"
+        "https://cms.peza24.com/items/main_categories?limit=100"
       ).then((resp) => resp.json()),
       fetch("https://cms.peza24.com/items/site_defaults").then((resp) =>
         resp.json()
@@ -144,7 +144,7 @@ export default function Home({ navigation }) {
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
            {loader? <Loader /> : null }
-      <PortfolioApp ref={childRef} />
+      <ServiceApp ref={childRef} />
    
       <View style={{ flexDirection: "row", marginTop: 20 }}>
         <Text
