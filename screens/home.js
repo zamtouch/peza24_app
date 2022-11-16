@@ -1,16 +1,28 @@
 import React, { useState, useRef } from "react";
-import { Text, View, StyleSheet, Image, ImageBackground, FlatList, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { Text, View, StyleSheet, Image, ImageBackground, FlatList, ScrollView, TouchableOpacity, Alert, SafeAreaView } from 'react-native';
 import moment from "moment";
-import { Feather, FontAwesome, FontAwesome5, Entypo, Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import VideoApp from "./inc/VideoApp";
 import CalculatorApp from "./inc/CalculatorApp";
-import Loader from "./inc/Loader";
 import CatalogueApp from "./inc/CatalogueApp";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Home({navigation}) {
 
     const [ greet, setGreet ] = useState(null);
     const [ video1, setVideo1 ] = useState(null);
+
+    const images = [
+      {
+        url:
+          'https://raw.githubusercontent.com/AboutReact/sampleresource/master/sample_img.png',
+      },
+      {
+        url:
+          'https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png',
+      },
+    ];
+  
 
     const [fv, setFv] = useState([
         {
@@ -86,7 +98,7 @@ export default function Home({navigation}) {
             "https://cms.peza24.com/items/fx_rates/1"
           ).then((resp) => resp.json()),
           fetch(
-            "https://cms.peza24.com/items/sales_and_promos?&sort=-date_created&filter[status]=published&limit=4&fields=*.*.*"
+            "https://cms.peza24.com/items/sales_and_promos?&sort=-date_created&filter[status]=published&limit=4&fields=*.*.*&filter[expiry_date][_gte]=$NOW"
           ).then((resp) => resp.json()),
         ])
           .then(function (response) {
@@ -116,8 +128,29 @@ export default function Home({navigation}) {
           });
       };
 
-      React.useEffect(() => {
+      const get_dif = (date) => {
+        var a = moment( date );
+        var b = moment();
+        return a.diff( b, 'days' );
+      }
 
+      const getToken = async () => {
+        try {
+          const value = await AsyncStorage.getItem('access_token');
+          const my_profile = await AsyncStorage.getItem('user');
+          if ( value !== null ) {
+            // value previously stored
+                global.access_token = value;
+    
+          }
+        } catch(e) {
+          // error reading value
+        }
+      }
+
+      React.useEffect(() => {
+        
+        getToken();
         var myDate = new Date();
         var hrs = myDate.getHours();
 
@@ -142,7 +175,7 @@ export default function Home({navigation}) {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor:'#fff' }}>
-      {loader? <Loader /> : null }
+
           <VideoApp video1={video1} ref={childRef} />
           <CatalogueApp ref={childRef2} />
           <CalculatorApp ref={childRef3} />
@@ -232,18 +265,22 @@ export default function Home({navigation}) {
         horizontal={true}
         data={promos}
         renderItem={ ({item}) => (
-            <TouchableOpacity onPress={() => playCatalogue( item )} key={item.id} style={{  width: global.width * 0.50, paddingRight:10, height: global.width * 0.95 }}>
+            <TouchableOpacity onPress={() => playCatalogue( item )} key={item.id} style={{  width: global.width * 0.50, paddingRight:10, height: global.width }}>
        
         
-              <ImageBackground imageStyle={{ borderRadius:5, borderColor:'#ddd', borderWidth:1 }} source={{ uri: "https://cms.peza24.com/assets/" + item.featured_image.id }} resizeMode="cover" style={{ alignItems:'center', justifyContent:'center', width:'100%', height: global.width * 0.60 }}>
+              <ImageBackground imageStyle={{ borderRadius:5, borderColor:'#ddd', borderWidth:1 }} source={{ uri: "https://cms.peza24.com/assets/" + item.featured_image.id }} resizeMode="cover" style={{ alignItems:'center', justifyContent:'center', width:'100%', height: global.width * 0.70 }}>
    
               </ImageBackground>
            
          
                <Text numberOfLines={1} ellipsizeMode='tail' style={{ marginTop: 10, fontWeight:'bold' }}>{(item.store).toUpperCase()}</Text>
                <Text numberOfLines={2} ellipsizeMode='tail' style={{ marginTop: 10,  }}>{item.title}</Text>
-               <Text style={{ color:'darkorange', fontSize:13 }}>Expires</Text>
-               <Text>{moment(item.expiry_date).utcOffset('+03:00').format('dddd MMM Do')}</Text>
+               {get_dif( item.expiry_date ) < 3 ?
+               <Text style={{ color: 'red', fontSize:13 }}>Expires in { get_dif( item.expiry_date ) } day{ get_dif(item.expiry_date) > 1 ? 's' : null }</Text>
+               :
+               <Text style={{ color: get_dif( item.expiry_date ) > 6 ? 'green' : 'darkorange', fontSize:13 }}>Expires in { get_dif( item.expiry_date ) } day{ get_dif(item.expiry_date) > 1 ? 's' : null }</Text>
+        }
+               <Text style={{ color:'#999' }}>{moment(item.expiry_date).utcOffset('+03:00').format('dddd MMM Do')}</Text>
                </TouchableOpacity> 
   )}
         keyExtractor={item => item.id}
@@ -259,27 +296,19 @@ export default function Home({navigation}) {
 
 <TouchableOpacity onPress={() => navigation.navigate( 'Projects' )} style={{ backgroundColor:'#f8ca2c', padding:10, marginTop:15, margin:10, alignItems:'center', width:'100%' }}>
 
-  <Text style={{ color:'#222', fontWeight:'bold'  }}>FREELANCERS / CONSULTANTS <FontAwesome style={styles.iconstyle} size={13} name="arrow-right" /></Text>
-</TouchableOpacity>
-
-<TouchableOpacity onPress={() => alert('coming soon')} style={{ backgroundColor:'#f8ca2c', padding:10, margin:10, alignItems:'center', width:'100%' }}>
-
-  <Text style={{ color:'#222', fontWeight:'bold'  }}>ZAMBIAN COMPANY <FontAwesome style={styles.iconstyle} size={13} name="arrow-right" /></Text>
+  <Text style={{ color:'#222', fontWeight:'bold'  }}>EXPLORE <FontAwesome style={styles.iconstyle} size={13} name="arrow-right" /></Text>
 </TouchableOpacity>
 </View>
+<Image source={{ uri: 'https://cms.peza24.com/assets/' + site?.services_banner }} resizeMode="cover" style={{ width:'100%', height: global.width * 0.667 }} />
 
 <View style={{ backgroundColor:'#fff', alignItems:'center', paddingVertical:30 }}>
 <Text style={{ marginTop:15, color:'#222', fontWeight:'bold', fontSize:28  }}>Discover Services<Text style={{ color:'#cc0000' }}>.</Text></Text>
 <Text style={{ color:'#999' }}>Browse services available & prices</Text>
 <TouchableOpacity onPress={() => navigation.navigate( 'Services' )} style={{ backgroundColor:'#ffff', padding:10, marginTop:20, alignItems:'center', width:'100%' }}>
 
-  <Text style={{ color:'#222', fontWeight:'bold'  }}>FREELANCERS / CONSULTANTS <FontAwesome style={styles.iconstyle} size={13} name="arrow-right" /></Text>
+  <Text style={{ color:'#222', fontWeight:'bold'  }}>FIND SERVICES <FontAwesome style={styles.iconstyle} size={13} name="arrow-right" /></Text>
 </TouchableOpacity>
 
-<TouchableOpacity onPress={() => alert('coming soon') } style={{ backgroundColor:'#ffff', padding:10, margin:15, alignItems:'center', width:'100%' }}>
-
-  <Text style={{ color:'#222', fontWeight:'bold'  }}>ZAMBIAN COMPANY <FontAwesome style={styles.iconstyle} size={13} name="arrow-right" /></Text>
-</TouchableOpacity>
 </View>
 
 <Image source={{ uri: 'https://cms.peza24.com/assets/' + site?.awards_banner }} resizeMode="cover" style={{ width:'100%', height: global.width * 0.667 }} />

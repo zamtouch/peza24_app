@@ -266,7 +266,7 @@ export default function Marketplace({route}) {
       null}
   </View>
   <View style={{ alignItems:'center', padding:10 }}>
-  <Text>{ user.first_name }</Text>
+  <Text>{user.account_type == 3 ? user.company_name : user.first_name }</Text>
   <Text style={{ color:'#999' }}>{ user.title }</Text>
   </View>
 

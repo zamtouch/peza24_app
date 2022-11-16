@@ -116,7 +116,7 @@ export default function Home() {
         resp.json()
       ),
       fetch(
-        "https://cms.peza24.com/items/sales_and_promos?filter[status]=published&sort=-date_created&limit=100&fields=*.*.*"
+        "https://cms.peza24.com/items/sales_and_promos?filter[status]=published&sort=-date_created&limit=100&fields=*.*.*&filter[expiry_date][_gte]=$NOW"
       ).then((resp) => resp.json()),
     ])
       .then(function (response) {
@@ -144,6 +144,12 @@ export default function Home() {
       });
   };
 
+  const get_dif = (date) => {
+    var a = moment( date );
+    var b = moment();
+    return a.diff( b, 'days' );
+  }
+
   React.useEffect(() => {
     get_data();
   }, []);
@@ -153,7 +159,6 @@ export default function Home() {
 
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
-           {loader? <Loader /> : null }
       <CatalogueApp ref={childRef2} />
       <View style={{ flexDirection: "row", marginTop: 20 }}>
         <Text
@@ -250,14 +255,16 @@ export default function Home() {
                 <Text
                   numberOfLines={2}
                   ellipsizeMode="tail"
-                  style={{ marginTop: 10, fontSize:11, minHeight:30, color:'#999' }}
+                  style={{ marginTop: 10, fontSize:11, minHeight:30 }}
                 >
                   {item.title}
                 </Text>
-                <Text style={{ color: "darkorange", fontSize: 13 }}>
-                <FontAwesome style={{ color: "darkorange" }} size={13} name="calendar" /> Expires
-                </Text>
-                <Text>
+                {get_dif( item.expiry_date ) < 3 ?
+               <Text style={{ color: 'red', fontSize:13 }}>Expires in { get_dif( item.expiry_date ) } day{ get_dif(item.expiry_date) > 1 ? 's' : null }</Text>
+               :
+               <Text style={{ color: get_dif( item.expiry_date ) > 6 ? 'green' : 'darkorange', fontSize:13 }}>Expires in { get_dif( item.expiry_date ) } day{ get_dif(item.expiry_date) > 1 ? 's' : null }</Text>
+        }
+                <Text style={{ color:'#999' }}>
                   {moment(item.expiry_date)
                     .utcOffset("+03:00")
                     .format("dddd MMM Do")}

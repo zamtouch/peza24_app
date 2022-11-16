@@ -7,7 +7,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import Loader from "./inc/Loader";
 //import Dropdown from './components/Dropdown';
 
-export default function Profile() {
+export default function Profile({navigation}) {
 
   //dropdown
   const [value, setValue] = useState(17);
@@ -79,9 +79,15 @@ export default function Profile() {
     childRef.current.getAlert();
   };
 
+  const get_dif = (date) => {
+    var a = moment( date );
+    var b = moment();
+    return a.diff( b, 'days' );
+  }
+
   React.useEffect(() => {
     get_jobs();
-  },[]) 
+  },[navigation]) 
 
   const childRef = useRef(null);
   // search render function
@@ -142,8 +148,8 @@ export default function Profile() {
       // Filter the masterDataSource and update FilteredDataSource
       const newData = masterDataSource.filter(function (item) {
         // Applying filter for the inserted text in search bar
-        const itemData = item.job_title
-          ? item.job_title.toUpperCase()
+        const itemData = item.job_title+item.job_company
+          ? (item.job_title+item.job_company).toUpperCase()
           : "".toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
@@ -173,7 +179,7 @@ export default function Profile() {
 
 
 <View style={styles.container}>
-{loader? <Loader /> : null }
+
 <JobApp ref={childRef} />
         
 
@@ -218,10 +224,20 @@ export default function Profile() {
             
              
               <View style={styles.metaInfo}>
-                <Text style={styles.title}><FontAwesome5 style={styles.iconstyle1} name="briefcase" /> {`${item.job_title}`}</Text>
-                <Text style={{color:'#cc0000', fontSize:11, marginTop:-7}}> <Text style={{color:'#030121'}}>posted: </Text>{moment(item.date_created).utcOffset("+03:00") .format("dddd MMM Do")}   <Text style={{color:'#030121'}}>due: </Text>{moment(item.due_date).utcOffset("+03:00") .format("dddd MMM Do")}  </Text> 
-                <Text style={styles.details}>{` ${item.job_company.initials }         ${item.job_type.type_name }          ${item.town.town_name }   `}</Text>   
+                <Text style={styles.title}>{item.job_title}</Text>
+                <Text style={styles.details}><FontAwesome5 style={styles.iconstyle1} name="building" /> {item.job_company.toUpperCase() }</Text>   
+                <Text style={styles.details}><FontAwesome5 style={styles.iconstyle1} name="pen-alt" /> {item.job_type.type_name.toUpperCase() } {'  '}<FontAwesome5 style={styles.iconstyle1} name="map-marker-alt" /> {item.town.town_name }</Text>   
+                <View style={{ paddingVertical:10 }}>
+              
+              {get_dif( item.due_date ) < 0 ?
+                <Text style={{ color:'#cc0000' }}><Entypo style={styles.iconstyle1} name="emoji-sad" /> Expired</Text>  
+              :
+               <Text style={{ color: get_dif( item.due_date ) > 3 ? 'green' : '#dd0000', fontSize:13 }}><FontAwesome5 style={styles.iconstyle1} name="calendar" /> Expires in { get_dif( item.due_date ) } day{ get_dif(item.due_date) > 1 ? 's' : null } ({moment(item.due_date).utcOffset("+03:00") .format("dddd MMM Do")})</Text>
+              }
+        </View>
               </View>
+              
+           
             </TouchableOpacity>
           )}
         />
@@ -234,7 +250,7 @@ export default function Profile() {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#f8f8f8',
+      backgroundColor: '#f0f0f0',
       padding:15
     },
     card: {
@@ -277,11 +293,11 @@ export default function Profile() {
     },
     title: {
       fontSize: 15,
-      padding: 10,
+      paddingVertical: 10,
       fontWeight: '500'
     } ,
     details: {
       fontSize: 12,
-      padding: 5
+      paddingVertical: 5
     } 
   });

@@ -158,7 +158,7 @@ export default function Home({ navigation }) {
           {filteredDataSource.length + " Listings"}
         </Text>
       </View>
-      <Text style={{ marginLeft:15, color:'#999' }}>Explore services listed by Zambian Freelances</Text>
+      <Text style={{ marginLeft:15, color:'#999' }}>Explore services listed by Zambian Professionals</Text>
       <View style={{ padding: 15, flex: 1 }}>
         <View
           style={{
@@ -195,22 +195,22 @@ export default function Home({ navigation }) {
         </View>
         <View style={{ flex: 1 }}>
         <TextInput
-        style={{ paddingHorizontal:10, paddingVertical:15, borderWidth:1, borderColor:'#ddd', borderRadius:10, marginBottom:10 }}
+        style={{ paddingHorizontal:10, paddingVertical:'3%', borderWidth:1, borderColor:'#ddd', borderRadius:10, marginBottom:10 }}
         onChangeText={ value => { searchFilterFunction(value) } }
         placeholder="Search by keyword"
       />
           <FlatList
             data={filteredDataSource}
+            numColumns={2}
             renderItem={({ item }) => (
               <TouchableOpacity
                 onPress={() => playProject(item)}
                 key={item.id}
                 style={{
-                  flex: 1,
                 borderColor:'#ddd',
                 borderRadius:10,
-                borderWidth:1,
-                  width:'100%',
+                borderWidth:0.5,
+                  width: global.width * 0.46,
              marginBottom:15,
                   alignItems: "center",
                 }}
@@ -219,7 +219,7 @@ export default function Home({ navigation }) {
                 <ImageBackground
                   imageStyle={{
                     borderRadius: 5,
-             
+                    backgroundColor:'#222'
                   }}
                   source={{
                     uri:
@@ -230,7 +230,7 @@ export default function Home({ navigation }) {
                     alignItems: "center",
                     justifyContent: "center",
                     width: "100%",
-                    height: global.width * 0.5,
+                    height: global.width * 0.3,
                   }}
                 ></ImageBackground> :
                 <ImageBackground
@@ -253,20 +253,20 @@ export default function Home({ navigation }) {
                 <Text
                   numberOfLines={1}
             
-                  style={{ marginTop: 10, fontSize:14,fontWeight:'bold', minHeight:30, color:'#222' }}
+                  style={{ marginTop: 10, fontSize:11,fontWeight:'bold', minHeight:22, color:'#222' }}
                 >
                   {item.name}
                 </Text>
                 <Text
                   numberOfLines={2}
                   ellipsizeMode="tail"
-                  style={{ fontSize:11, minHeight:30, color:'#222' }}
+                  style={{ fontSize:11, minHeight:30, paddingHorizontal:10, color:'#222' }}
                 > {item.description}</Text>
 
 <Text
                   numberOfLines={1}
             
-                  style={{ marginTop: 10, fontSize:14,fontWeight:'bold', minHeight:30, color:'#222' }}
+                  style={{ marginTop: 2, fontSize:14,fontWeight:'bold', color:'#222' }}
                 >
                  From K{item.basic_plan_price}
                 </Text>
@@ -274,9 +274,9 @@ export default function Home({ navigation }) {
            <TouchableOpacity onPress={ () => { navigation.navigate( "ViewProfile", {
               user: item.user_created
             } ) } } style={{ flexDirection:'row', paddingLeft:10, marginBottom:15}}>
-           <Image source={{ uri: "https://media.peza24.com/profile/" + item.user_created.profile_pic }} style={{ height:60, width: 60, borderRadius:60, borderColor:'#fff', borderWidth:4 }} />
+           <Image source={{ uri: "https://media.peza24.com/profile/" + item.user_created.profile_pic }} style={{ height:35, width: 35, borderRadius:35, borderColor:'#fff', borderWidth:4 }} />
    <View style={{ flex:1, justifyContent:'center', paddingLeft:15 }}>
-    <Text>{item.user_created.first_name}</Text>
+    <Text numberOfLines={1} style={{ fontSize:12, fontWeight:'bold' }}>{item.user_created.account_type == 3 ? item.user_created.company_name : item.user_created.first_name}</Text>
     <Text style={{ fontSize:11, color:'#999' }}>View Profile</Text>
     </View> 
            </TouchableOpacity>

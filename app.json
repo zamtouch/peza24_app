@@ -2,7 +2,7 @@
   "expo": {
     "name": "peza24_app",
     "slug": "peza24_app",
-    "version": "1.0.0",
+    "version": "1.4.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -18,7 +18,9 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "peza24.zamtouch.app",
+      "buildNumber": "4"
     },
     "android": {
       "adaptiveIcon": {
@@ -26,7 +28,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "peza24.zamtouch.app",
-      "versionCode": 1,
+      "versionCode": 4,
       "permissions": [
         "CAMERA",
         "MEDIA_LIBRARY",
@@ -40,6 +42,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a512c763-47b1-4660-8ee7-9f83e04df9b0"
+      }
     }
   }
 }

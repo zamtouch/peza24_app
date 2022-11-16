@@ -8,6 +8,7 @@ import {
   Modal,
   Pressable,
   StyleSheet,
+  ActivityIndicator,
   ImageBackground,
   KeyboardAvoidingView,
 } from "react-native";
@@ -27,6 +28,7 @@ global.width = Dimensions.get("window").width;
 global.height = Dimensions.get("window").height;
 
 export default function Login(props) {
+  const [loginProgress, setLoginProgress] = useState(false);
   const [email, setEmail] = useState(null);
 
   const [pw, setPw] = useState(null);
@@ -46,7 +48,6 @@ export default function Login(props) {
     try {
       //  const value = JSON.stringify(value)
       await AsyncStorage.setItem("access_token", value);
-      await AsyncStorage.setItem("login_status", "1");
       props.setLogin(false);
     } catch (e) {
       // saving error
@@ -100,6 +101,9 @@ export default function Login(props) {
   };
 
   const login = () => {
+
+    setLoginProgress(true);
+ 
     const options = {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -122,6 +126,7 @@ export default function Login(props) {
           
 
         } else {
+          setLoginProgress(false);
           alert(response.errors[0].message);
         }
       })
@@ -153,20 +158,34 @@ export default function Login(props) {
               style={[styles.button4]}
               onPress={() => {
                 (global.sign_up_url =
-                  "https://app.peza24.com/signup-freelancer"),
+                  "https://app.peza24.com/signup-personal?p=m"),
                   sign_up();
               }}
             >
               <Text style={styles.textStyle}>
                 <FontAwesome size={12} color="#fff" name="user-circle" />{" "}
-                Customer / Freelancer
+                Customer
               </Text>
             </Pressable>
 
             <Pressable
               style={[styles.button4]}
               onPress={() => {
-                (global.sign_up_url = "https://app.peza24.com/signup-business"),
+                (global.sign_up_url =
+                  "https://app.peza24.com/signup-freelancer?p=m"),
+                  sign_up();
+              }}
+            >
+              <Text style={styles.textStyle}>
+                <FontAwesome size={12} color="#fff" name="user-circle" />{" "}
+                Freelancer / Consultant
+              </Text>
+            </Pressable>
+
+            <Pressable
+              style={[styles.button4]}
+              onPress={() => {
+                (global.sign_up_url = "https://app.peza24.com/signup-business?p=m"),
                   sign_up();
               }}
             >
@@ -235,10 +254,14 @@ export default function Login(props) {
           }}
           secureTextEntry={true}
         />
+  {loginProgress? 
+  <ActivityIndicator size="large" color="#fff" />:
 
         <Pressable style={[styles.button]} onPress={() => login()}>
           <Text style={styles.textStyle}>Login</Text>
         </Pressable>
+
+  }
 
         <Pressable
           style={[styles.button2, styles.buttonClose]}

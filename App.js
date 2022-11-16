@@ -17,6 +17,7 @@ import Marketplace from './screens/marketplace';
 import ProfileMenu from './screens/profile_menu';
 import ProfilePage from './screens/profile_page';
 import SignUp from './screens/signup';
+import OrderService from './screens/order_service';
 
 global.width = Dimensions.get('window').width;
 global.height = Dimensions.get('window').height;
@@ -107,6 +108,7 @@ export default function App() {
         <Stack.Screen name="Podcasts" component={Podcasts} />
         <Stack.Screen name="Services" component={Services} />
         <Stack.Screen name="ViewProfile" component={ViewProfile} />
+        <Stack.Screen name="OrderService" component={OrderService} />
         <Stack.Screen name="ProfilePage" component={ProfilePage} 
              options={{ headerShown: true, headerTitle: (props) => <Logo {...props} /> }}
         />

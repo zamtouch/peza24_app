@@ -11,22 +11,20 @@ global.height = Dimensions.get('window').height;
 
 export default function Profile({navigation}) {
 
-    const [ login_status, setLogin ] = useState(false);
+    const [ login_status, setLogin ] = useState(true);
 
     const getLoginStatus = async () => {
         try {
-          const value = await AsyncStorage.getItem('login_status');
+        
           const access_token = await AsyncStorage.getItem('access_token');
-          if ( value !== null ) {
+          if ( access_token !== null ) {
             // value previously stored
-              if ( value !== '1' ) {
-                setLogin( true );
-                setLoader( false );
-              } else {
+            console.log( access_token + "is set" );
                 global.access_token = access_token;
-              }
-
+                setLogin( false );
+              
           } else {
+            console.log( "access token is null" );
             setLogin( true );
             setLoader( false );
           }

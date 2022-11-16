@@ -15,8 +15,6 @@ const VideoApp = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
   
     getAlert() {
-
-      console.log( "my props "+ JSON.stringify( props ) );
       var num = getRandomInt(3);
       setCount( num );
       setModalVisible( true );
@@ -30,7 +28,6 @@ const VideoApp = forwardRef((props, ref) => {
   return (
     <View style={styles.centeredView}>
       <Modal
-        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {

@@ -34,7 +34,6 @@ const VideoApp = forwardRef((props, ref) => {
   return (
     <View style={styles.centeredView}>
       <Modal
-        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {

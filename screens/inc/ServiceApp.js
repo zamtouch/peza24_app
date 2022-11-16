@@ -11,7 +11,7 @@ const PortfolioApp = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
   
     getAlert() {
-      console.log( global.project );
+      console.log( global.access_token );
       setModalVisible( true );
   }
 
@@ -25,9 +25,17 @@ const PortfolioApp = forwardRef((props, ref) => {
     />
   );
 
+
+
   const FirstRoute = () => (
 
-    <View style={{ flex: 1, backgroundColor: '#fff', padding:15 }}>
+    <View style={{ flex: 1, backgroundColor: '#fff', paddingHorizontal:10 }}>
+      {global.access_token?
+      <View style={{ flexDirection:'row', justifyContent:'flex-end' }}><TouchableOpacity
+              style={[styles.button, styles.buttonOrder]}
+              onPress={() => { setModalVisible(false), navigation.navigate('OrderService', { service_id: global.project.id, plan:'basic' }) }}>
+              <Text style={styles.textStyle}>Order Service</Text>
+            </TouchableOpacity></View>: null}
             <Text style={{ fontWeight:'bold', fontSize:20, marginBottom:15 }}>K{global.project.basic_plan_price}</Text>
             <Text>{global.project.basic_plan_description}</Text>
     </View>
@@ -35,6 +43,12 @@ const PortfolioApp = forwardRef((props, ref) => {
   
   const SecondRoute = () => (
     <View style={{ flex: 1, padding:15 }}>
+          {global.access_token?
+      <View style={{ flexDirection:'row', justifyContent:'flex-end' }}><TouchableOpacity
+              style={[styles.button, styles.buttonOrder]}
+              onPress={() => { setModalVisible(false), navigation.navigate('OrderService', { service_id: global.project.id, plan:'standard' }) }}>
+              <Text style={styles.textStyle}>Order Service</Text>
+            </TouchableOpacity></View>: null}
           <Text style={{ fontWeight:'bold', fontSize:20, marginBottom:15 }}>K{global.project.standard_plan_price}</Text>
     <Text>{global.project.standard_plan_description}</Text>
   </View>
@@ -42,6 +56,12 @@ const PortfolioApp = forwardRef((props, ref) => {
 
   const ThirdRoute = () => (
     <View style={{ flex: 1, padding:15 }}>
+          {global.access_token?
+      <View style={{ flexDirection:'row', justifyContent:'flex-end' }}><TouchableOpacity
+              style={[styles.button, styles.buttonOrder]}
+              onPress={() => { setModalVisible(false), navigation.navigate('OrderService', { service_id: global.project.id, plan:'premium' }) }}>
+              <Text style={styles.textStyle}>Order Service</Text>
+            </TouchableOpacity></View>: null}
           <Text style={{ fontWeight:'bold', fontSize:20, marginBottom:15 }}>K{global.project.premium_plan_price}</Text>
     <Text>{global.project.premium_plan_description}</Text>
   </View>
@@ -69,7 +89,6 @@ const PortfolioApp = forwardRef((props, ref) => {
   return (
     <View style={styles.centeredView}>
       <Modal
-        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
@@ -165,8 +184,11 @@ const styles = StyleSheet.create({
   buttonOpen: {
     backgroundColor: '#F194FF',
   },
+  buttonOrder: {
+    backgroundColor: '#cc0000',
+  },
   buttonClose: {
-    backgroundColor: '#dd0000',
+    backgroundColor: '#222',
   },
   textStyle: {
     color: 'white',

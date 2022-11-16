@@ -106,7 +106,7 @@ export default function Home() {
         resp.json()
       ),
       fetch(
-        "https://cms.peza24.com/items/portfolio?filter[status]=published&limit=100&fields=*.*.*"
+        "https://cms.peza24.com/items/portfolio?limit=100&fields=*.*.*"
       ).then((resp) => resp.json()),
     ])
       .then(function (response) {

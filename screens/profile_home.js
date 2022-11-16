@@ -51,8 +51,8 @@ export default function ProfileHome(props) {
           save_user( response.data );
    
         } else {
-          console.log( response );
-          if ( response.errors[0].message == "Invalid user credentials." ) {
+          console.log( "ERROR GETTING DATA " + response );
+          if ( response.errors[0].message == "Invalid user credentials." || response.errors[0].message == "Token expired." ) {
             logout();
             
           }
@@ -90,7 +90,6 @@ export default function ProfileHome(props) {
       try {
      
         await AsyncStorage.removeItem('access_token');
-        await AsyncStorage.removeItem('login_status');
         await AsyncStorage.removeItem('user');
         props.setLogin( true );
 
@@ -102,8 +101,20 @@ export default function ProfileHome(props) {
 
   const childRef = useRef(null);
 
+  const account_type = ( value ) => {
+
+    if ( value == "1" ) {
+        setAc("Customer");
+    }
+      else if ( value == "2" ) {
+        setAc("Freelancer/Consultant");
+       } else if ( value == "3" ) {
+        setAc("Freelancer/Consultant");
+      }
+  }
+
   React.useEffect(() => {
-    
+
     get_user_updates( global.access_token );
     const unsubscribe = navigation.addListener('focus', () => {
       getToken();
@@ -139,15 +150,33 @@ export default function ProfileHome(props) {
                   navigation.navigate('ProfilePage');
               }} >
     { user.profile_pic?
-      <Image source={{ uri: "https://media.peza24.com/profile/" + user.profile_pic }} style={{ height:100, width: 100, borderRadius:100, borderColor:'#fff', borderWidth:4, marginTop:-50 }} />:
-      <Image source={require('../assets/user_placeholder.jpg')} style={{ height:100, width: 100, borderRadius:100, borderColor:'#fff', borderWidth:4, marginTop:-50 }} />}
+      <Image source={{ uri: "https://media.peza24.com/profile/" + user.profile_pic }} style={{ height:100, width: 100, borderRadius:100, borderColor:'#fff', backgroundColor:'#222', borderWidth:4, marginTop:-50 }} />:
+      <Image source={require('../assets/user_placeholder.jpg')} style={{ height:100, width: 100, borderRadius:100, borderColor:'#fff', backgroundColor:'#222', borderWidth:4, marginTop:-50 }} />}
 </TouchableOpacity>
   <View style={{ alignItems:'center', padding:10 }}>
-  <Text>{ user.first_name }</Text>
+  <Text>{ user.account_type == 3 ? user.company_name : user.first_name }</Text>
   <Text style={{ color:'#999' }}>{ user.title }</Text>
+  <Text style={{ color:'#cc0000' }}></Text>
   </View>
 
-  { user.account_type == 1 || user.account_type == 2 ?
+  { user.account_type == 1 ?
+    <View>
+      <TouchableOpacity onPress={() => {
+                (global.profile_url =
+                  "https://app.peza24.com/mobile/my-profile.php?a="+global.access_token+"&v=1"),
+                  navigation.navigate('ProfilePage');
+              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="user" /> My Profile</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+   <TouchableOpacity onPress={() => {
+                (global.profile_url =
+                  "https://app.peza24.com/mobile/my-orders.php?a="+global.access_token+"&v=1.1"),
+                  navigation.navigate('ProfilePage');
+              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="coins" /> My Orders</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+      <TouchableOpacity style={ styles.menu_item }><Text style={styles.menu_text}><Feather style={styles.iconstyle1} name="settings" /> Account Settings</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+    </View> 
+    : null
+  }
+
+  { user.account_type == 2 ?
     <View>
       <TouchableOpacity onPress={() => {
                 (global.profile_url =
@@ -162,7 +191,7 @@ export default function ProfileHome(props) {
       <TouchableOpacity onPress={() => {
                 (global.profile_url =
                   "https://app.peza24.com/mobile/my-skills.php?a="+global.access_token+"&v=1.1"),
-                  navigation.navigate('ProfilePage');
+                  navigation.navigate('ProfilePage')
               }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="star" /> My Skills</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
       <TouchableOpacity onPress={() => {
                 (global.profile_url =
@@ -173,16 +202,56 @@ export default function ProfileHome(props) {
                 (global.profile_url =
                   "https://app.peza24.com/mobile/my-services.php?a="+global.access_token+"&v=1.1"),
                   navigation.navigate('ProfilePage');
-              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="coins" /> My Services</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="coins" /> My Services (Virtual/Remote Work)</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
         <TouchableOpacity onPress={() => {
                 (global.profile_url =
                   "https://app.peza24.com/mobile/my-orders.php?a="+global.access_token+"&v=1.1"),
                   navigation.navigate('ProfilePage');
-              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="coins" /> My Orders</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="users" /> My Orders</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
       <TouchableOpacity style={ styles.menu_item }><Text style={styles.menu_text}><Feather style={styles.iconstyle1} name="settings" /> Account Settings</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
     </View> 
     : null
   }
+
+{ user.account_type == 3 ?
+    <View>
+      <TouchableOpacity onPress={() => {
+                (global.profile_url =
+                  "https://app.peza24.com/mobile/my-profile.php?a="+global.access_token+"&v=1"),
+                  navigation.navigate('ProfilePage');
+              }} style={ styles.menu_item }><Text style={styles.menu_text}><Entypo style={styles.iconstyle1} name="shop" /> Company Profile</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+                (global.profile_url =
+                  "https://app.peza24.com/mobile/my-skills.php?a="+global.access_token),
+                  navigation.navigate('ProfilePage')
+              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="star" /> Skills</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+      <TouchableOpacity onPress={() => {
+                (global.profile_url =
+                  "https://app.peza24.com/mobile/my-portfolio.php?a="+global.access_token+"&v=1.1"),
+                  navigation.navigate('ProfilePage');
+              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="images" /> Portfolio</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+      <TouchableOpacity onPress={() => {
+                (global.profile_url =
+                  "https://app.peza24.com/mobile/my-services.php?a="+global.access_token+"&v=1.1"),
+                  navigation.navigate('ProfilePage');
+              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="coins" /> Services (Virtual/Remote Work)</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+              <TouchableOpacity onPress={() => {
+                (global.profile_url =
+                  "https://app.peza24.com/mobile/my-products.php?a="+global.access_token+"&v=1.1"),
+                  navigation.navigate('ProfilePage');
+              }} style={ styles.menu_item }><Text style={styles.menu_text}><Entypo style={styles.iconstyle1} name="shop" /> Products for sale</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+        
+        <TouchableOpacity onPress={() => {
+                (global.profile_url =
+                  "https://app.peza24.com/mobile/my-orders.php?a="+global.access_token+"&v=1.1"),
+                  navigation.navigate('ProfilePage');
+              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="users" /> Orders</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+     </View> 
+    : null
+  }
+
+<TouchableOpacity style={ styles.menu_item }><Text style={styles.menu_text}><Feather style={styles.iconstyle1} name="settings" /> Account Settings</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+  
 <TouchableOpacity style={{ marginVertical:30 }} onPress={ () => logout() }><Text><FontAwesome5 style={styles.iconstyle1} name="lock" />  Logout</Text></TouchableOpacity>
 </View>
 </ScrollView>

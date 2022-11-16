@@ -23,7 +23,6 @@ const VideoApp = forwardRef((props, ref) => {
   return (
     <View style={styles.centeredView}>
       <Modal
-        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
@@ -35,7 +34,7 @@ const VideoApp = forwardRef((props, ref) => {
   
           <WebView
       style={{ flex:1, borderRadius:10 }}
-      source={{ uri: "https://app.peza24.com/doc-reader/view.php?i=https://cms.peza24.com/assets/" + global.catalogue?.pdf_file.id }}
+      source={{ uri: "https://app.peza24.com/image_slider/image_swipebook.php?i=" + global.catalogue?.id }}
     />
                    <Pressable
               style={[styles.button, styles.buttonClose]}
