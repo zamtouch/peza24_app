@@ -146,7 +146,7 @@ export default function ProfileHome(props) {
   <View style={{ alignItems:'center', padding:15 }}>
     <TouchableOpacity onPress={() => {
                 (global.profile_url =
-                  "https://app.peza24.com/mobile/my-profile-pic.php?a="+global.access_token+"&v=1"),
+                  "https://app.peza24.com/mobile/my-profile-pic.php?a="+global.access_token),
                   navigation.navigate('ProfilePage');
               }} >
     { user.profile_pic?
@@ -163,14 +163,20 @@ export default function ProfileHome(props) {
     <View>
       <TouchableOpacity onPress={() => {
                 (global.profile_url =
-                  "https://app.peza24.com/mobile/my-profile.php?a="+global.access_token+"&v=1"),
+                  "https://app.peza24.com/mobile/my-profile.php?a="+global.access_token),
                   navigation.navigate('ProfilePage');
               }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="user" /> My Profile</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
    <TouchableOpacity onPress={() => {
                 (global.profile_url =
-                  "https://app.peza24.com/mobile/my-orders.php?a="+global.access_token+"&v=1.1"),
+                  "https://app.peza24.com/mobile/my-orders-services.php?a="+global.access_token),
                   navigation.navigate('ProfilePage');
-              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="coins" /> My Orders</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="coins" /> My Orders (Services)</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+       <TouchableOpacity onPress={() => {
+                (global.profile_url =
+                  "https://app.peza24.com/mobile/my-orders-products.php?a="+global.access_token),
+                  navigation.navigate('ProfilePage');
+              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="shopping-cart" /> My Orders (Products)</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+    
       <TouchableOpacity style={ styles.menu_item }><Text style={styles.menu_text}><Feather style={styles.iconstyle1} name="settings" /> Account Settings</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
     </View> 
     : null
@@ -180,36 +186,44 @@ export default function ProfileHome(props) {
     <View>
       <TouchableOpacity onPress={() => {
                 (global.profile_url =
-                  "https://app.peza24.com/mobile/my-profile.php?a="+global.access_token+"&v=1"),
+                  "https://app.peza24.com/mobile/my-profile.php?a="+global.access_token),
                   navigation.navigate('ProfilePage');
               }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="user" /> My Profile</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
       <TouchableOpacity onPress={() => {
                 (global.profile_url =
-                  "https://app.peza24.com/mobile/my-education.php?a="+global.access_token+"&v=1.1"),
+                  "https://app.peza24.com/mobile/my-education.php?a="+global.access_token),
                   navigation.navigate('ProfilePage');
               }} style={ styles.menu_item }><Text style={styles.menu_text}><Feather style={styles.iconstyle1} name="book-open" /> My Education</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
-      <TouchableOpacity onPress={() => {
+    <TouchableOpacity onPress={() => {
                 (global.profile_url =
-                  "https://app.peza24.com/mobile/my-skills.php?a="+global.access_token+"&v=1.1"),
-                  navigation.navigate('ProfilePage')
-              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="star" /> My Skills</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
-      <TouchableOpacity onPress={() => {
-                (global.profile_url =
-                  "https://app.peza24.com/mobile/my-portfolio.php?a="+global.access_token+"&v=1.1"),
+                  "https://app.peza24.com/mobile/my-portfolio.php?a="+global.access_token),
                   navigation.navigate('ProfilePage');
               }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="images" /> My Portfolio</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+                (global.profile_url =
+                  "https://app.peza24.com/mobile/my-skills.php?a="+global.access_token),
+                  navigation.navigate('ProfilePage')
+              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="star" /> Service Skills</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+     
+             <Text style={{ marginVertical:10, color:'#999' }}>SERVICES</Text>
       <TouchableOpacity onPress={() => {
                 (global.profile_url =
-                  "https://app.peza24.com/mobile/my-services.php?a="+global.access_token+"&v=1.1"),
+                  "https://app.peza24.com/mobile/my-services.php?a="+global.access_token),
                   navigation.navigate('ProfilePage');
               }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="coins" /> My Services (Virtual/Remote Work)</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
         <TouchableOpacity onPress={() => {
                 (global.profile_url =
-                  "https://app.peza24.com/mobile/my-orders.php?a="+global.access_token+"&v=1.1"),
+                  "https://app.peza24.com/mobile/my-orders-services.php?a="+global.access_token),
                   navigation.navigate('ProfilePage');
-              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="users" /> My Orders</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
-      <TouchableOpacity style={ styles.menu_item }><Text style={styles.menu_text}><Feather style={styles.iconstyle1} name="settings" /> Account Settings</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
-    </View> 
+              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="file" /> My Orders (Services)</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+       
+          <TouchableOpacity onPress={() => {
+                (global.profile_url =
+                  "https://app.peza24.com/mobile/manage-orders-services.php?a="+global.access_token),
+                  navigation.navigate('ProfilePage');
+              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="users" /> Customer Orders (Services)</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+     
+     </View> 
     : null
   }
 
@@ -217,35 +231,37 @@ export default function ProfileHome(props) {
     <View>
       <TouchableOpacity onPress={() => {
                 (global.profile_url =
-                  "https://app.peza24.com/mobile/my-profile.php?a="+global.access_token+"&v=1"),
+                  "https://app.peza24.com/mobile/my-profile.php?a="+global.access_token),
                   navigation.navigate('ProfilePage');
               }} style={ styles.menu_item }><Text style={styles.menu_text}><Entypo style={styles.iconstyle1} name="shop" /> Company Profile</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+          <TouchableOpacity onPress={() => {
+                (global.profile_url =
+                  "https://app.peza24.com/mobile/my-portfolio.php?a="+global.access_token),
+                  navigation.navigate('ProfilePage');
+              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="images" /> Portfolio</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+  
         <TouchableOpacity onPress={() => {
                 (global.profile_url =
                   "https://app.peza24.com/mobile/my-skills.php?a="+global.access_token),
                   navigation.navigate('ProfilePage')
-              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="star" /> Skills</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="star" /> Service Skills</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
       <TouchableOpacity onPress={() => {
                 (global.profile_url =
-                  "https://app.peza24.com/mobile/my-portfolio.php?a="+global.access_token+"&v=1.1"),
-                  navigation.navigate('ProfilePage');
-              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="images" /> Portfolio</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
-      <TouchableOpacity onPress={() => {
-                (global.profile_url =
-                  "https://app.peza24.com/mobile/my-services.php?a="+global.access_token+"&v=1.1"),
+                  "https://app.peza24.com/mobile/my-services.php?a="+global.access_token),
                   navigation.navigate('ProfilePage');
               }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="coins" /> Services (Virtual/Remote Work)</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
-              <TouchableOpacity onPress={() => {
-                (global.profile_url =
-                  "https://app.peza24.com/mobile/my-products.php?a="+global.access_token+"&v=1.1"),
-                  navigation.navigate('ProfilePage');
-              }} style={ styles.menu_item }><Text style={styles.menu_text}><Entypo style={styles.iconstyle1} name="shop" /> Products for sale</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
-        
+         <Text style={{ marginVertical:10, color:'#999' }}>SERVICES</Text>
         <TouchableOpacity onPress={() => {
                 (global.profile_url =
-                  "https://app.peza24.com/mobile/my-orders.php?a="+global.access_token+"&v=1.1"),
+                  "https://app.peza24.com/mobile/my-orders-services.php?a="+global.access_token),
                   navigation.navigate('ProfilePage');
-              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="users" /> Orders</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="file" /> My Orders (Services)</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+           <TouchableOpacity onPress={() => {
+                (global.profile_url =
+                  "https://app.peza24.com/mobile/manage-orders-services.php?a="+global.access_token),
+                  navigation.navigate('ProfilePage');
+              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="users" /> Customer Orders (Services)</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+
      </View> 
     : null
   }

@@ -237,18 +237,26 @@ export default function Home({navigation}) {
             <Text style={styles.icontext}>Projects</Text>
         </TouchableOpacity>
 
+        
         <TouchableOpacity style={{ flex:1, alignItems:'center' }}  onPress={ () => { navigation.navigate( 'Services' ) } }>
     
-            <Ionicons style={styles.iconstyle} size={24} name="list-circle" />
+            <Ionicons style={styles.iconstyle} size={24} name="cart" />
           
             <Text style={styles.icontext}>Services</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={{ flex:1, alignItems:'center' }}  onPress={ () => { alert("Coming soon") } }>
     
-    <Ionicons style={styles.iconstyle} size={24} name="people" />
+            <Ionicons style={styles.iconstyle} size={24} name="people" />
+          
+            <Text style={styles.icontext}>Search</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={{ flex:1, alignItems:'center' }}  onPress={ () => { alert("Coming soon") } }>
+    
+    <Ionicons style={styles.iconstyle} size={24} name="play" />
   
-    <Text style={styles.icontext}>Profiles</Text>
+    <Text style={styles.icontext}>Music</Text>
 </TouchableOpacity>
 
 

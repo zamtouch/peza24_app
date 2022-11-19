@@ -19,7 +19,7 @@ export default function Profile({navigation}) {
           const access_token = await AsyncStorage.getItem('access_token');
           if ( access_token !== null ) {
             // value previously stored
-            console.log( access_token + "is set" );
+
                 global.access_token = access_token;
                 setLogin( false );
               

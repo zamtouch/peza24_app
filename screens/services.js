@@ -158,7 +158,7 @@ export default function Home({ navigation }) {
           {filteredDataSource.length + " Listings"}
         </Text>
       </View>
-      <Text style={{ marginLeft:15, color:'#999' }}>Explore services listed by Zambian Professionals</Text>
+      <Text style={{ marginLeft:15, color:'#999' }}>Explore online services listed by Zambian Professionals</Text>
       <View style={{ padding: 15, flex: 1 }}>
         <View
           style={{

@@ -150,7 +150,7 @@ export default function Home() {
         <Text
           style={{ flex: 1, fontSize: 20, fontWeight: "bold", marginLeft: 15 }}
         >
-         Freelancers/Consultant's Projects<Text style={{ color: "#cc0000" }}>.</Text>
+          Projects<Text style={{ color: "#cc0000" }}>.</Text>
         
         </Text>
        

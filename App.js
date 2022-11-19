@@ -75,10 +75,10 @@ function MyTabs() {
       />
 
 <BottomTab.Screen
-        name="Marketplace"
-        component={Marketplace}
+        name="Services"
+        component={Services}
         options={{
-          title: 'Marketplace',
+          title: 'Services',
           tabBarIcon: ({ color }) => <Feather name="shopping-cart" color={color} size={20} />,
         }}
       />
