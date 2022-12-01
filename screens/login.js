@@ -1,9 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Text,
   View,
-  Image,
-  TouchableOpacity,
   TextInput,
   Modal,
   Pressable,
@@ -12,17 +10,11 @@ import {
   ImageBackground,
   KeyboardAvoidingView,
 } from "react-native";
-import {
-  Feather,
-  FontAwesome,
-  FontAwesome5,
-  Entypo,
-  Ionicons,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import { Dimensions } from "react-native";
 import { useNavigation, CommonActions } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Notifications from 'expo-notifications';
 
 global.width = Dimensions.get("window").width;
 global.height = Dimensions.get("window").height;
@@ -30,10 +22,9 @@ global.height = Dimensions.get("window").height;
 export default function Login(props) {
   const [loginProgress, setLoginProgress] = useState(false);
   const [email, setEmail] = useState(null);
-
   const [pw, setPw] = useState(null);
-
   const [modalVisible, setModalVisible] = useState(false);
+
 
   const reset = () => {
     navigation.dispatch(
@@ -103,12 +94,13 @@ export default function Login(props) {
   const login = () => {
 
     setLoginProgress(true);
+
  
     const options = {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
-        email: email,
+        email: email.toLowerCase(),
         password: pw,
       }),
     };

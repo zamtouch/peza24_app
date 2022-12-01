@@ -18,6 +18,10 @@ import ProfileMenu from './screens/profile_menu';
 import ProfilePage from './screens/profile_page';
 import SignUp from './screens/signup';
 import OrderService from './screens/order_service';
+import ManageServiceOrders from './screens/orders/ManageServiceOrders';
+import OrderInfo from './screens/orders/OrderInfo';
+import OrderInfoManager from './screens/orders/OrderInfoManager';
+import MyServiceOrders from './screens/orders/MyServiceOrders';
 
 global.width = Dimensions.get('window').width;
 global.height = Dimensions.get('window').height;
@@ -107,6 +111,14 @@ export default function App() {
         <Stack.Screen name="Projects" component={Projects} />
         <Stack.Screen name="Podcasts" component={Podcasts} />
         <Stack.Screen name="Services" component={Services} />
+        <Stack.Screen name="MyServiceOrders" component={MyServiceOrders} options={{ headerShown: true, headerTitle: 'My Orders (Services)' }} />
+        <Stack.Screen name="ManageServiceOrders" component={ManageServiceOrders} options={{ headerShown: true, headerTintColor: '#fff', headerTitle: 'Manage Orders (Services)',   headerStyle: {
+      backgroundColor: '#cc0000'
+    }, }} />
+        <Stack.Screen name="OrderInfo" component={OrderInfo} options={{ headerShown: true, headerTitle: 'Order Details' }} />
+        <Stack.Screen name="OrderInfoManager" component={OrderInfoManager} options={{ headerShown: true, headerTintColor: '#fff', headerTitle: 'Details - Manage Order', headerStyle: {
+      backgroundColor: '#cc0000'
+    } }} />
         <Stack.Screen name="ViewProfile" component={ViewProfile} />
         <Stack.Screen name="OrderService" component={OrderService} />
         <Stack.Screen name="ProfilePage" component={ProfilePage} 

@@ -6,6 +6,7 @@ import Loader from "./inc/Loader";
 import ProfileHome from "./profile_home";
 import Login from "./login";
 
+
 global.width = Dimensions.get('window').width;
 global.height = Dimensions.get('window').height;
 
@@ -50,6 +51,7 @@ export default function Profile({navigation}) {
 
       return (
 <View style={{ flex:1 }}>
+
         { login_status ? <Login setLogin={setLogin} /> : <ProfileHome setLogin={setLogin} /> }
         </View>
       );

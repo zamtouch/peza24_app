@@ -5,6 +5,7 @@
     "version": "1.5.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "scheme": "peza24.zamtouch.app",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -28,6 +29,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "peza24.zamtouch.app",
+      "googleServicesFile": "./google-services.json",
       "versionCode": 5,
       "permissions": [
         "CAMERA",
@@ -47,6 +49,15 @@
       "eas": {
         "projectId": "a512c763-47b1-4660-8ee7-9f83e04df9b0"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/peza24.png",
+          "color": "#ffffff"
+        }
+      ]
+    ]
   }
 }

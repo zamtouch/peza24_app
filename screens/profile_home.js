@@ -5,6 +5,7 @@ import { Dimensions } from 'react-native';
 import VideoApp from "./inc/VideoApp";
 import { Feather, FontAwesome, FontAwesome5, Entypo, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { getFocusedRouteNameFromRoute, useNavigation } from '@react-navigation/native'
+import SetNotify from "./setNotifications";
 
 global.width = Dimensions.get('window').width;
 global.height = Dimensions.get('window').height;
@@ -130,6 +131,7 @@ export default function ProfileHome(props) {
 
   return (
 <ScrollView style={{ flex:1, backgroundColor:'#fff' }}>
+  <SetNotify />
 <VideoApp ref={childRef} />
 {user.my_bio_video?
 <ImageBackground source={{ uri: "https://img.youtube.com/vi/" + user.my_bio_video + "/hqdefault.jpg" }} resizeMode="cover"  style={{ height: global.width * 0.5, backgroundColor:'#222' }}>
@@ -211,17 +213,9 @@ export default function ProfileHome(props) {
                   "https://app.peza24.com/mobile/my-services.php?a="+global.access_token),
                   navigation.navigate('ProfilePage');
               }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="coins" /> My Services (Virtual/Remote Work)</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
-        <TouchableOpacity onPress={() => {
-                (global.profile_url =
-                  "https://app.peza24.com/mobile/my-orders-services.php?a="+global.access_token),
-                  navigation.navigate('ProfilePage');
-              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="file" /> My Orders (Services)</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('MyServiceOrders') } style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="file" /> My Orders (Services)</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
        
-          <TouchableOpacity onPress={() => {
-                (global.profile_url =
-                  "https://app.peza24.com/mobile/manage-orders-services.php?a="+global.access_token),
-                  navigation.navigate('ProfilePage');
-              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="users" /> Customer Orders (Services)</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('ManageServiceOrders') } style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="users" /> Customer Orders (Services)</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
      
      </View> 
     : null
@@ -251,16 +245,8 @@ export default function ProfileHome(props) {
                   navigation.navigate('ProfilePage');
               }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="coins" /> Services (Virtual/Remote Work)</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
          <Text style={{ marginVertical:10, color:'#999' }}>SERVICES</Text>
-        <TouchableOpacity onPress={() => {
-                (global.profile_url =
-                  "https://app.peza24.com/mobile/my-orders-services.php?a="+global.access_token),
-                  navigation.navigate('ProfilePage');
-              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="file" /> My Orders (Services)</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
-           <TouchableOpacity onPress={() => {
-                (global.profile_url =
-                  "https://app.peza24.com/mobile/manage-orders-services.php?a="+global.access_token),
-                  navigation.navigate('ProfilePage');
-              }} style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="users" /> Customer Orders (Services)</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('MyServiceOrders') } style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="file" /> My Orders (Services)</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
+           <TouchableOpacity onPress={() => navigation.navigate('ManageServiceOrders') }  style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="users" /> Customer Orders (Services)</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
 
      </View> 
     : null
