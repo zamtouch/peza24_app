@@ -173,16 +173,16 @@ export default function MyServiceOrders({navigation, route}) {
             
                 <View style={styles.metaInfo}>
                         { item.sender_id == orders.user_created.id ?
-                    <View style={{ padding:15, backgroundColor:'#d9fdd3', borderRadius:15, marginBottom:10, alignItems:'flex-end' }}>
+                    <View style={{ padding:15, marginLeft:100, backgroundColor:'#d9fdd3', borderRadius:15, marginBottom:15, alignItems:'flex-end' }}>
                   <Text style={{ fontWeight:'bold' }}>You:</Text>  
                         <Text>{item.msg}</Text>
-                        <Text style={{ color:'#999' }}>{moment(item.created).format('LT')}</Text>
+                        <Text style={{ color:'#999' }}>{moment(item.created).calendar()}</Text>
                 </View>
 :
-<View style={{ padding:15, backgroundColor:'#fff', borderRadius:15, marginBottom:10}}>
+<View style={{ padding:15, backgroundColor:'#fff', borderRadius:15, marginBottom:15, marginRight:100 }}>
 <Text style={{ fontWeight:'bold' }}>{item.from} (Seller):</Text>              
 <Text>{item.msg}</Text>
-<Text style={{ color:'#999' }}>{moment(item.created).format('LT')}</Text>
+<Text style={{ color:'#999' }}>{moment(item.created).calendar()}</Text>
 </View>
 }
 
@@ -198,7 +198,7 @@ export default function MyServiceOrders({navigation, route}) {
 
         <View>
   
-             <Pressable style={[styles.button, {backgroundColor:'#222'} ]} onPress={() => { setModalVisible(true) }}>
+             <Pressable style={[styles.button, {backgroundColor:'#cc0000', borderRadius:30} ]} onPress={() => { setModalVisible(true) }}>
           <Text style={{ color:'#fff' }}>Send seller a message</Text>
         </Pressable>
         </View>

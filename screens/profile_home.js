@@ -252,8 +252,7 @@ export default function ProfileHome(props) {
     : null
   }
 
-<TouchableOpacity style={ styles.menu_item }><Text style={styles.menu_text}><Feather style={styles.iconstyle1} name="settings" /> Account Settings</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
-  
+
 <TouchableOpacity style={{ marginVertical:30 }} onPress={ () => logout() }><Text><FontAwesome5 style={styles.iconstyle1} name="lock" />  Logout</Text></TouchableOpacity>
 </View>
 </ScrollView>

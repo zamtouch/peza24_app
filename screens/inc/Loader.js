@@ -18,7 +18,7 @@ const VideoApp = forwardRef((props, ref) => {
 
   return (
     <View style={styles.centeredView}>
-      <Modal
+      <View
         transparent={false}
         visible={modalVisible}
         onRequestClose={() => {
@@ -31,7 +31,7 @@ const VideoApp = forwardRef((props, ref) => {
  <Image source={ require('../../assets/peza24_loader.gif') } resizeMode="contain" style={{ height:105, with:105 }} />
           </View>
         </View>
-      </Modal>
+      </View>
 
     </View>
   );
@@ -40,15 +40,29 @@ const VideoApp = forwardRef((props, ref) => {
 const styles = StyleSheet.create({
   centeredView: {
     justifyContent: 'center',
+    position: 'absolute',
     backgroundColor:'#fff',
     flex:1,
-    zIndex:2
+    zIndex:10,
+    flex: 1,
+    position: 'absolute',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    borderRadius:30
   },
   modalView: {
     justifyContent: 'center',
     backgroundColor: '#fff',
     alignItems:'center',
-    flex:1
+    flex:1,
+    borderRadius:30
   },
   button: {
     borderRadius: 20,

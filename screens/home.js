@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Text, View, StyleSheet, Image, ImageBackground, FlatList, ScrollView, TouchableOpacity, Alert, SafeAreaView } from 'react-native';
 import moment from "moment";
-import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { FontAwesome, Ionicons, Entypo, Feather } from '@expo/vector-icons';
 import VideoApp from "./inc/VideoApp";
 import CalculatorApp from "./inc/CalculatorApp";
 import CatalogueApp from "./inc/CatalogueApp";
@@ -225,18 +225,31 @@ export default function Home({navigation}) {
 
       <TouchableOpacity style={{ flex:1, alignItems:'center' }} onPress={ () => { navigation.navigate( 'Podcasts' ) } }>
        
-            <Ionicons style={styles.iconstyle} size={24} name="videocam-outline" />
+            <Entypo style={styles.iconstyle} size={24} name="folder-video" />
          
             <Text style={styles.icontext}>Podcasts</Text>
         </TouchableOpacity>
 
       <TouchableOpacity style={{ flex:1, alignItems:'center' }}  onPress={ () => { navigation.navigate( 'Projects' ) } }>
       
-            <Ionicons style={styles.iconstyle} size={24} name="images" />
+            <Entypo style={styles.iconstyle} size={24} name="images" />
            
             <Text style={styles.icontext}>Projects</Text>
         </TouchableOpacity>
 
+        <TouchableOpacity style={{ flex:1, alignItems:'center' }}  onPress={ () => { alert("coming soon") } }>
+    
+            <Entypo style={[styles.iconstyle,{color:'#cc0000'}]} size={24} name="shop" />
+          
+            <Text style={styles.icontext}>Marketplace</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={{ flex:1, alignItems:'center' }}  onPress={ () => { navigation.navigate( 'Promos' ) } }>
+    
+    <Feather style={styles.iconstyle} size={24} name="shopping-bag" />
+  
+    <Text style={styles.icontext}>Promos</Text>
+</TouchableOpacity>
         
         <TouchableOpacity style={{ flex:1, alignItems:'center' }}  onPress={ () => { navigation.navigate( 'Services' ) } }>
     
@@ -245,19 +258,7 @@ export default function Home({navigation}) {
             <Text style={styles.icontext}>Services</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={{ flex:1, alignItems:'center' }}  onPress={ () => { alert("Coming soon") } }>
-    
-            <Ionicons style={styles.iconstyle} size={24} name="people" />
-          
-            <Text style={styles.icontext}>Search</Text>
-        </TouchableOpacity>
 
-        <TouchableOpacity style={{ flex:1, alignItems:'center' }}  onPress={ () => { alert("Coming soon") } }>
-    
-    <Ionicons style={styles.iconstyle} size={24} name="play" />
-  
-    <Text style={styles.icontext}>Music</Text>
-</TouchableOpacity>
 
 
       </View>

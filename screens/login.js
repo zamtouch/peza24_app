@@ -129,7 +129,7 @@ export default function Login(props) {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    
       style={{ flex: 1, backgroundColor: "#fff" }}
     >
       <Modal
@@ -254,9 +254,14 @@ export default function Login(props) {
         </Pressable>
 
   }
-
+      <Pressable
+          style={[styles.button2, styles.buttonClose, {backgroundColor:'transparent'}]}
+          onPress={() => navigation.navigate('ResetPassword') }
+        >
+          <Text style={styles.textStyle}>Forgotten password? Reset now.</Text>
+        </Pressable>
         <Pressable
-          style={[styles.button2, styles.buttonClose]}
+          style={[styles.button2, styles.buttonClose, {backgroundColor:'transparent', borderColor:'#fff', borderWidth:1 }]}
           onPress={() => setModalVisible(!modalVisible)}
         >
           <Text style={styles.textStyle}>Create Account</Text>

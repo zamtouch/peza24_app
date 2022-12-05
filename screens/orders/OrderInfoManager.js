@@ -174,16 +174,16 @@ export default function MyServiceOrders({navigation, route}) {
             
                 <View style={styles.metaInfo}>
                         { item.sender_id == orders.user_created.id ?
-                    <View style={{ padding:15, backgroundColor:'#fff', borderRadius:15, marginBottom:15, alignItems:'flex-end `' }}>
+                    <View style={{ padding:15, backgroundColor:'#fff', borderRadius:15, marginBottom:15, alignItems:'flex-end', marginRight:100 }}>
                   <Text style={{ fontWeight:'bold' }}>{item.from} (Client):</Text>   
                         <Text style={{ padding:5 }}>{item.msg}</Text>
-                        <Text style={{ color:'#999' }}>{moment(item.created).format('LT')}</Text>
+                        <Text style={{ color:'#999' }}>{moment(item.created).calendar()}</Text>
                 </View>
 :
-<View style={{ padding:15, backgroundColor:'#d9fdd3', borderRadius:15, marginBottom:15, alignItems:'flex-end' }}>
+<View style={{ padding:15, backgroundColor:'#d9fdd3', borderRadius:15, marginBottom:15, alignItems:'flex-end', marginLeft:100 }}>
 <Text style={{ fontWeight:'bold' }}>You:</Text>            
 <Text style={{ padding:5 }}>{item.msg}</Text>
-<Text style={{ color:'#999' }}>{moment(item.created).format('LT')}</Text>
+<Text style={{ color:'#999' }}>{moment(item.created).calendar()}</Text>
 </View>
 }
 

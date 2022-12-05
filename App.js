@@ -17,6 +17,7 @@ import Marketplace from './screens/marketplace';
 import ProfileMenu from './screens/profile_menu';
 import ProfilePage from './screens/profile_page';
 import SignUp from './screens/signup';
+import ResetPassword from './screens/resetPassword';
 import OrderService from './screens/order_service';
 import ManageServiceOrders from './screens/orders/ManageServiceOrders';
 import OrderInfo from './screens/orders/OrderInfo';
@@ -121,6 +122,7 @@ export default function App() {
     } }} />
         <Stack.Screen name="ViewProfile" component={ViewProfile} />
         <Stack.Screen name="OrderService" component={OrderService} />
+        <Stack.Screen name="ResetPassword" component={ResetPassword} />
         <Stack.Screen name="ProfilePage" component={ProfilePage} 
              options={{ headerShown: true, headerTitle: (props) => <Logo {...props} /> }}
         />

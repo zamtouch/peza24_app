@@ -235,7 +235,7 @@ export default function Home() {
                   {item.title}
                 </Text>
                 <Text style={{ color: "#999", fontSize: 13, textTransform: 'lowercase' }}>
-                <FontAwesome style={styles.iconstyle} size={13} name="users" /> {item.podcast.name}
+                <FontAwesome style={styles.iconstyle} size={13} name="users" /> {item.name}
                 </Text>
             
               </TouchableOpacity>

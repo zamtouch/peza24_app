@@ -1,7 +1,7 @@
 import React, {useState, useEffect, forwardRef, useRef, useImperativeHandle } from 'react';
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from 'react-native';
 import { WebView } from 'react-native-webview';
-
+import Loader from "./Loader";
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
@@ -11,7 +11,7 @@ const VideoApp = forwardRef((props, ref) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [play] = useState( props.video1 );
   const [count, setCount] = useState( 0 );
-
+  const [ visible, setVisible ] = useState(false);
   useImperativeHandle(ref, () => ({
   
     getAlert() {
@@ -22,6 +22,16 @@ const VideoApp = forwardRef((props, ref) => {
   }
 
   }));
+
+  const close_loader = () => {
+
+    
+    setTimeout(function() {
+      setVisible(false)
+    }, 1000);
+
+  
+  }
 
 
 
@@ -36,8 +46,10 @@ const VideoApp = forwardRef((props, ref) => {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-  
+          {visible ? <Loader /> : null}
           <WebView
+             onLoadStart={() => setVisible(true)}
+             onLoad={() => close_loader() }
       style={{ flex:1, borderRadius:10 }}
       shouldStartLoadWithRequest={false}
       source={{ uri: 'https://www.youtube.com/embed/' + global.play_video + '?v=' + count }}
