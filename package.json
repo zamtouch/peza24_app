@@ -1,5 +1,5 @@
 {
-  "name": "peza24_app",
+  "name": "peza24-app",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {

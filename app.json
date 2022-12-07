@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "peza24_app",
-    "slug": "peza24_app",
-    "version": "1.5.0",
+    "name": "peza24",
+    "slug": "peza24-app",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme": "peza24.zamtouch.app",
+    "scheme": "app.peza24.com",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -13,24 +13,24 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 60000
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "peza24.zamtouch.app",
-      "buildNumber": "5"
+      "bundleIdentifier": "app.peza24.com",
+      "buildNumber": "1"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "peza24.zamtouch.app",
+      "package": "app.peza24.com",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 5,
+      "versionCode": 1,
       "permissions": [
         "CAMERA",
         "MEDIA_LIBRARY",
@@ -47,7 +47,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "a512c763-47b1-4660-8ee7-9f83e04df9b0"
+        "projectId": "9de0641c-cfb1-409e-9795-aa50deaf2883"
       }
     },
     "plugins": [
