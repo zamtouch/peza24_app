@@ -251,8 +251,8 @@ export default function ProfileHome(props) {
      </View> 
     : null
   }
-
-
+   <Text style={{ marginVertical:10, color:'#999' }}>SETTINGS</Text>
+<TouchableOpacity onPress={() => navigation.navigate('AccountManagementMenu') }  style={ styles.menu_item }><Text style={styles.menu_text}><FontAwesome5 style={styles.iconstyle1} name="tools" /> Account Management</Text><FontAwesome5 style={styles.iconstyle2} name="chevron-right" /></TouchableOpacity>
 <TouchableOpacity style={{ marginVertical:30 }} onPress={ () => logout() }><Text><FontAwesome5 style={styles.iconstyle1} name="lock" />  Logout</Text></TouchableOpacity>
 </View>
 </ScrollView>

@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "886938441210",
-    "project_id": "peza24-dd846",
-    "storage_bucket": "peza24-dd846.appspot.com"
+    "project_number": "600676719148",
+    "project_id": "peza24-3741a",
+    "storage_bucket": "peza24-3741a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:886938441210:android:3fff6016f6363521634043",
+        "mobilesdk_app_id": "1:600676719148:android:14cd932658062b5b948f89",
         "android_client_info": {
-          "package_name": "peza24.zamtouch.app"
+          "package_name": "app.peza24.com"
         }
       },
       "oauth_client": [
         {
-          "client_id": "886938441210-kolqup51561d0nkiinpp43qbuimccahq.apps.googleusercontent.com",
+          "client_id": "600676719148-6bkhuh26bbjgjp3r7jdmlhrjek6nvhsr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.peza24.com",
+            "certificate_hash": "943cc2231e7114115334e806f6592eb1b398f76c"
+          }
+        },
+        {
+          "client_id": "600676719148-vterf9uerf18rt52tafjsifmbf2a16od.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDqIXjK7x1LQk7ZaeZZO3DsH3PhrwJL1H0"
+          "current_key": "AIzaSyCXQk357v4ICv_rCXM8LOO7P7r_038Jr90"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "886938441210-kolqup51561d0nkiinpp43qbuimccahq.apps.googleusercontent.com",
+              "client_id": "600676719148-vterf9uerf18rt52tafjsifmbf2a16od.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

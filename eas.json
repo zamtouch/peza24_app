@@ -11,12 +11,13 @@
       "distribution": "internal"
     },
     "production": {}
+    
   },
   "submit": {
     "production": {
       "ios": {
         "appleId": "mathiaschitalu@gmail.com",
-        "ascAppId": "6444394098",
+        "ascAppId": "1658699527",
         "appleTeamId": "R2HMX8JM99"
       }
     }

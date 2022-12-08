@@ -17,6 +17,7 @@ import Marketplace from './screens/marketplace';
 import ProfileMenu from './screens/profile_menu';
 import ProfilePage from './screens/profile_page';
 import SignUp from './screens/signup';
+import AccountManagementMenu from './screens/AccountManagentMenu';
 import ResetPassword from './screens/resetPassword';
 import OrderService from './screens/order_service';
 import ManageServiceOrders from './screens/orders/ManageServiceOrders';
@@ -127,6 +128,7 @@ export default function App() {
              options={{ headerShown: true, headerTitle: (props) => <Logo {...props} /> }}
         />
         <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="AccountManagementMenu" component={AccountManagementMenu} options={{ headerShown: true, headerTitle: 'Account Management' }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
