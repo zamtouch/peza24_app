@@ -2,7 +2,7 @@
   "expo": {
     "name": "peza24",
     "slug": "peza24-app",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "app.peza24.com",
@@ -21,7 +21,10 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "app.peza24.com",
-      "buildNumber": "1"
+      "buildNumber": "2",
+      "infoPlist": {
+  "NSCameraUsageDescription": "This app uses the camera to update users profile data."
+}
     },
     "android": {
       "adaptiveIcon": {

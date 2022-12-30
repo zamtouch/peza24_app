@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Text, View, FlatList, Image, StatusBar, StyleSheet, Pressable, Modal, ImageBackground, TextInput, KeyboardAvoidingView, TouchableOpacity, ScrollView, useWindowDimensions } from 'react-native';
+import { Alert, Text, View, FlatList, Image, StatusBar, StyleSheet, Pressable, Modal, ImageBackground, TextInput, KeyboardAvoidingView, TouchableOpacity, ScrollView, useWindowDimensions } from 'react-native';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import { Dimensions } from 'react-native';
 import moment from "moment";
@@ -12,6 +12,27 @@ global.height = Dimensions.get('window').height;
 export default function MyServiceOrders({navigation, route}) {
     const [modalVisible, setModalVisible] = useState(false);
     const [msg, setMsg] = useState('');
+    let status;
+
+
+    const  showConfirmation = (navigation) => {
+      Alert.alert(
+        'Confirm',
+        'Are you ready to submit?',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => {},
+            style: 'cancel',
+          },
+          {
+            text: 'OK',
+            onPress: () => navigation.navigate( 'DeliverOrder' ),
+          },
+        ],
+        { cancelable: false }
+      );
+    }
 
     const send_chat = () => {
 
@@ -45,45 +66,7 @@ export default function MyServiceOrders({navigation, route}) {
 
     }
 
-    const get_status = ( status, query_type ) => {
 
-        var statement = "";
-        var color = "";
-
-      
-        switch ( status ) {
-          case '0':
-            statement = "Respond to order";
-            color = "darkorange";
-            break;
-          case '1':
-            statement = "Pending Payment";
-            color = "darkorange";
-            break;
-          case '2':
-             statement = "In Progress";
-             color = "yellowgreen";
-            break;
-          case '3':
-            statement = "Completed";
-            color = "darkgreen";
-            break;
-          case '4':
-              statement = "In Review";
-              color = "darkorange";
-            break;
-          case '5':
-              statement = "Cancelled";
-            color = "#bb0000";
-        }
-
-          if ( query_type < 1 ) {
-          return statement;
-          } else {
-            return color;
-          }
-
-    }
 
   const renderTabBar = props => (
     <TabBar
@@ -93,24 +76,22 @@ export default function MyServiceOrders({navigation, route}) {
     />
   );
 
+  
+
   const FirstRoute = () => (
 
     <View style={{ flex: 1, backgroundColor: '#fff', padding:10 }}>
+
  <Text style={{ fontSize:16, fontWeight:'bold' }}>Project Summary</Text>
                 <View style={{ borderColor:'#ddd', borderWidth:1, borderRadius:5, padding:15, marginVertical:10 }}>
         
              
-             <View style={{ flexDirection:'row' }}>
+             <View>
 
-                <View style={{ flex:3 }}></View>
-                <View style={{ flex:2 }}>
-                <Text
-                  numberOfLines={2}
-                  ellipsizeMode="tail"
-                  style={{ marginTop: 10, fontSize:11, color: get_status( orders.status, 1 )}}
-                >
-                 <FontAwesome style={styles.iconstyle} size={14} name="circle" /> { get_status( orders.status, 0 ) }
-                </Text>
+           
+                <View>
+                  {status}
+             
                 {orders.buyer_chat_pending > 0?
                 <Text
                   numberOfLines={2}
@@ -216,8 +197,7 @@ export default function MyServiceOrders({navigation, route}) {
   
   const renderScene = SceneMap({
     first: FirstRoute,
-    second: SecondRoute,
-    third: ThirdRoute,
+    second: SecondRoute
   });
 
   const [o] = useState( route.params.order );
@@ -230,6 +210,59 @@ export default function MyServiceOrders({navigation, route}) {
     { key: 'first', title: 'Summary' },
     { key: 'second', title: 'Messages' },
   ]);
+
+
+  const submit_for_review = () => {
+
+    //confirm if complete?
+  
+    fetch(
+      "https://app.peza24.com/mobile/service_orders/approve_order?order_id="+o+"&a="+global.access_token)
+      .then((response) => response.json())
+      .then((response) => {
+
+    console.log(response);
+
+    if (response.hasOwnProperty("data")) {
+    
+      get_data();
+      alert("Update successful");
+
+    } else {
+      alert(response.errors[0].message);
+    }
+
+  })
+  .catch((err) => console.error(err));
+
+}
+
+  const approve_order = () => {
+
+    
+  
+      fetch(
+        "https://app.peza24.com/mobile/service_orders/approve_order?order_id="+o+"&a="+global.access_token)
+        .then((response) => response.json())
+        .then((response) => {
+
+      console.log(response);
+
+      if (response.hasOwnProperty("data")) {
+      
+        get_data();
+        alert("Update successful");
+ 
+      } else {
+        alert(response.errors[0].message);
+      }
+
+    })
+    .catch((err) => console.error(err));
+
+  }
+
+
 
   const get_data = () => {
 
@@ -276,8 +309,43 @@ export default function MyServiceOrders({navigation, route}) {
 
   const childRef3 = useRef(null);
 
+  let my_button;
+
+
+  switch ( orders.status ) {
+
+  
+
+    case '0':
+      //pending approval
+      my_button = <Pressable onPress={ () => approve_order() } style={[styles.button, {backgroundColor:'#fff', borderColor:'#ddd', borderWidth:1, marginVertical:15 } ] }><Text style={{ color:'#444' }}>Approve Order</Text></Pressable>;
+      status = <Text style={{ color:'orange' }}>Pending your approval</Text>
+      break;
+    case '1':
+     //"Pending Payment";
+     status = <Text style={{ color:'red' }}>Pending payment from buyer</Text>
+      break;
+    case '2':
+      // statement = "In Progress";
+      my_button = <Pressable onPress={ () => showConfirmation(navigation) } style={[styles.button, {backgroundColor:'yellowgreen', borderColor:'#ddd', borderWidth:1, marginVertical:15 } ] }><Text style={{ color:'#fff' }}>Submit for review</Text></Pressable>;
+   
+      status = <Text style={{ color:'green' }}>Paid. Please complete project before deadline.</Text>;
+      break;
+    case '3':
+      statement = "Completed";
+      color = "darkgreen";
+      break;
+    case '4':
+        statement = "In Review";
+        color = "darkorange";
+      break;
+    case '5':
+        statement = "Cancelled";
+      color = "#bb0000";
+  }
+
   return (
-<View style={{ flex:1 }}>
+<View style={{ flex:1, padding:15, backgroundColor:'#fff' }}>
 <KeyboardAvoidingView
     behavior={Device.brand === "apple" ? "padding" : "height"}
   >
@@ -321,6 +389,7 @@ export default function MyServiceOrders({navigation, route}) {
         </View>
       </Modal>
       </KeyboardAvoidingView>
+      {my_button}
   <TabView
       navigationState={{ index, routes }}
       renderScene={renderScene}

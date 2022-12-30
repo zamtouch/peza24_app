@@ -5,6 +5,7 @@ import { FontAwesome, Ionicons, Entypo, Feather } from '@expo/vector-icons';
 import VideoApp from "./inc/VideoApp";
 import CalculatorApp from "./inc/CalculatorApp";
 import CatalogueApp from "./inc/CatalogueApp";
+import CheckNetwork from "./CheckNetwork";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Home({navigation}) {
@@ -175,7 +176,7 @@ export default function Home({navigation}) {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor:'#fff' }}>
-
+<CheckNetwork />
           <VideoApp video1={video1} ref={childRef} />
           <CatalogueApp ref={childRef2} />
           <CalculatorApp ref={childRef3} />
@@ -239,7 +240,7 @@ export default function Home({navigation}) {
 
         <TouchableOpacity style={{ flex:1, alignItems:'center' }}  onPress={ () => { alert("coming soon") } }>
     
-            <Entypo style={[styles.iconstyle,{color:'#cc0000'}]} size={24} name="shop" />
+            <Entypo style={[styles.iconstyle,{color:'#dd0000'}]} size={24} name="shop" />
           
             <Text style={styles.icontext}>Marketplace</Text>
         </TouchableOpacity>
@@ -262,22 +263,26 @@ export default function Home({navigation}) {
 
 
       </View>
+
+          <ImageBackground source={require('../assets/home123.jpg')} resizeMode="cover" style={{ alignItems:'center', justifyContent:'center', width:'100%', height: global.width * 0.55 }}>
+   
+              </ImageBackground>
     
-<View style={{ flexDirection:'row', marginTop:30 }}>
-<Text style={{ flex:1, fontSize:20, fontWeight:'bold', marginLeft: 15, marginBottom:15 }}>Latest Sales & Promos<Text style={{ color:'#cc0000' }}>.</Text></Text>
-<TouchableOpacity onPress={ () => { navigation.navigate( 'Promos' ) } }><Text style={{ marginRight:15, fontSize:20, color:'#777' }}>See all</Text></TouchableOpacity>
+<View style={{ flexDirection:'row', backgroundColor:'#000030', paddingVertical:15, }}>
+<Text style={{ flex:1, fontSize:20, fontWeight:'bold', marginLeft: 15, color:'#fff' }}>Latest Sales & Promos<Text style={{ color:'#cc0000' }}>.</Text></Text>
+<TouchableOpacity onPress={ () => { navigation.navigate( 'Promos' ) } }><Text style={{ marginRight:15, fontSize:16, color:'#ddd' }}>See more</Text></TouchableOpacity>
 </View>
 
-        <View style={{ flexDirection:'row', paddingLeft:15, marginBottom:15 }}>
+        <View style={{ flexDirection:'row', paddingLeft:15, marginVertical:15 }}>
     
         <FlatList
         horizontal={true}
         data={promos}
         renderItem={ ({item}) => (
-            <TouchableOpacity onPress={() => playCatalogue( item )} key={item.id} style={{  width: global.width * 0.50, paddingRight:10, height: global.width }}>
+            <TouchableOpacity onPress={() => playCatalogue( item )} key={item.id} style={{  width: global.width * 0.50, paddingRight:15, height: global.width }}>
        
         
-              <ImageBackground imageStyle={{ borderRadius:5, borderColor:'#ddd', borderWidth:1 }} source={{ uri: "https://cms.peza24.com/assets/" + item.featured_image.id }} resizeMode="cover" style={{ alignItems:'center', justifyContent:'center', width:'100%', height: global.width * 0.70 }}>
+              <ImageBackground imageStyle={{ borderRadius:5, borderColor:'#ddd', borderWidth:1 }} source={{ uri: "https://cms.peza24.com/assets/" + item.featured_image.id }} resizeMode="contain" style={{ alignItems:'center', justifyContent:'center', width:'100%', height: global.width * 0.70 }}>
    
               </ImageBackground>
            

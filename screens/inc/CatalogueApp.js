@@ -2,10 +2,13 @@ import React, {useState, useEffect, forwardRef, useRef, useImperativeHandle } fr
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import Loader from "./Loader";
+import { FontAwesome, Ionicons, Entypo, Feather } from '@expo/vector-icons';
+import Share from '../Share';
 
 const VideoApp = forwardRef((props, ref) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [ visible, setVisible ] = useState(false);
+  const link = 'https://app.peza24.com/share/catalogue';
 
   useImperativeHandle(ref, () => ({
   
@@ -34,6 +37,7 @@ const VideoApp = forwardRef((props, ref) => {
 
   return (
     <View style={styles.centeredView}>
+
       <Modal
         transparent={true}
         visible={modalVisible}
@@ -55,6 +59,9 @@ const VideoApp = forwardRef((props, ref) => {
               onPress={() => setModalVisible(!modalVisible)}>
               <Text style={styles.textStyle}>close</Text>
             </Pressable>
+
+
+         <Share link={link+'/'+global.catalogue?.id} />
           </View>
         </View>
      

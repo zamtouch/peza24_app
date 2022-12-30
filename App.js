@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as Notifications from 'expo-notifications';
 import { Text, View, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
@@ -22,11 +23,15 @@ import ResetPassword from './screens/resetPassword';
 import OrderService from './screens/order_service';
 import ManageServiceOrders from './screens/orders/ManageServiceOrders';
 import OrderInfo from './screens/orders/OrderInfo';
+import DeliverOrder from './screens/orders/DeliverOrder';
 import OrderInfoManager from './screens/orders/OrderInfoManager';
 import MyServiceOrders from './screens/orders/MyServiceOrders';
 
+
 global.width = Dimensions.get('window').width;
 global.height = Dimensions.get('window').height;
+
+Notifications.setBadgeCountAsync(0);
 
 function Logo() {
   return (
@@ -113,6 +118,7 @@ export default function App() {
         <Stack.Screen name="Projects" component={Projects} />
         <Stack.Screen name="Podcasts" component={Podcasts} />
         <Stack.Screen name="Services" component={Services} />
+        <Stack.Screen name="DeliverOrder" component={DeliverOrder} />
         <Stack.Screen name="MyServiceOrders" component={MyServiceOrders} options={{ headerShown: true, headerTitle: 'My Orders (Services)' }} />
         <Stack.Screen name="ManageServiceOrders" component={ManageServiceOrders} options={{ headerShown: true, headerTintColor: '#fff', headerTitle: 'Manage Orders (Services)',   headerStyle: {
       backgroundColor: '#cc0000'
