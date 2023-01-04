@@ -23,6 +23,7 @@ import ResetPassword from './screens/resetPassword';
 import OrderService from './screens/order_service';
 import ManageServiceOrders from './screens/orders/ManageServiceOrders';
 import OrderInfo from './screens/orders/OrderInfo';
+import PayServiceOrder from './screens/orders/PayServiceOrder';
 import DeliverOrder from './screens/orders/DeliverOrder';
 import OrderInfoManager from './screens/orders/OrderInfoManager';
 import MyServiceOrders from './screens/orders/MyServiceOrders';
@@ -120,6 +121,7 @@ export default function App() {
         <Stack.Screen name="Services" component={Services} />
         <Stack.Screen name="DeliverOrder" component={DeliverOrder} />
         <Stack.Screen name="MyServiceOrders" component={MyServiceOrders} options={{ headerShown: true, headerTitle: 'My Orders (Services)' }} />
+        <Stack.Screen name="PayServiceOrder" component={PayServiceOrder} options={{ headerShown: true, headerTitle: 'Pay for service' }} />
         <Stack.Screen name="ManageServiceOrders" component={ManageServiceOrders} options={{ headerShown: true, headerTintColor: '#fff', headerTitle: 'Manage Orders (Services)',   headerStyle: {
       backgroundColor: '#cc0000'
     }, }} />

@@ -21,8 +21,8 @@ export default function MyServiceOrders({navigation}) {
               color = "orange";
               break;
             case '1':
-              statement = "Pending Payment";
-              color = "darkorange";
+              statement = "Approved & Pending Payment";
+              color = "green";
               break;
             case '2':
                statement = "In Progress";

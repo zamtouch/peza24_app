@@ -54,6 +54,7 @@ export default function MyServiceOrders({navigation, route}) {
             case '0':
               statement = "Pending Approval";
               color = "orange";
+            
               break;
             case '1':
               statement = "Pending Payment";
@@ -92,7 +93,27 @@ export default function MyServiceOrders({navigation, route}) {
     />
   );
 
+const get_button = (status) => {
+  switch (status) {
+    case '1':
+      return (
+        <Pressable onPress={ () => navigation.navigate('PayServiceOrder', { order_id: orders.id, amount: orders.total }) } style={{ padding:15, marginVertical:15, backgroundColor:'green', alignItems:'center', borderRadius:5 }}>
+          <Text style={{ color:'#fff' }}><FontAwesome style={styles.iconstyle} size={14} name="shopping-cart" />  Pay Now</Text>
+        </Pressable>
+      );
+    case '3':
+      return (
+        <Pressable onPress={()=>console.log()} style={{ padding:15, marginVertical:15, backgroundColor:'orange', alignItems:'center', borderRadius:5 }}>
+        <Text style={{ color:'#fff' }}><FontAwesome style={styles.iconstyle} size={14} name="shopping-cart" />  View Delivery</Text>
+      </Pressable>
+      );
+    default:
+      return null;
+  } 
+}
+
   const FirstRoute = () => (
+    
 
     <View style={{ flex: 1, backgroundColor: '#fff', padding:10 }}>
  <Text style={{ fontSize:16, fontWeight:'bold' }}>Project Summary</Text>
@@ -110,6 +131,7 @@ export default function MyServiceOrders({navigation, route}) {
                 >
                  <FontAwesome style={styles.iconstyle} size={14} name="circle" /> { get_status( orders.status, 0 ) }
                 </Text>
+                {get_button( orders.status ) }
                 {orders.buyer_chat_pending > 0?
                 <Text
                   numberOfLines={2}
